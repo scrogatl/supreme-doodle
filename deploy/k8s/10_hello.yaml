@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: helloworld
+    service: hello
+    shard: blue
+  name: hello-blue
+  namespace: observability-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+      service: hello
+      shard: blue
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        service: hello
+        shard: blue
+    spec:
+      containers:
+      - name: hello
+        image: public.ecr.aws/z4m0n1r4/hello
+        imagePullPolicy: Always
+        #command:
+        #- "java"
+        #- "-jar"
+        #- "/shopping.jar"
+        #- "server"
+        #- "/conf/shopping-app.yaml"
+        ports:
+        - containerPort: 5001
+          name: application
+          protocol: TCP
