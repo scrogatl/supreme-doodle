@@ -4,6 +4,7 @@ metadata:
   labels:
     app: helloworld
     service: world
+    version: world-green
     shard: green
   name: world-green
   namespace: observability-demo
@@ -13,12 +14,14 @@ spec:
     matchLabels:
       app: helloworld
       service: world
+      version: world-green
       shard: green
   template:
     metadata:
       labels:
         app: helloworld
         service: world
+        version: world-green
         shard: green
     spec:
       containers:

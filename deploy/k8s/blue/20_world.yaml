@@ -4,6 +4,7 @@ metadata:
   labels:
     app: helloworld
     service: world
+    version: world-blue
     shard: blue
   name: world-blue
   namespace: observability-demo
@@ -13,18 +14,25 @@ spec:
     matchLabels:
       app: helloworld
       service: world
+      version: world-blue
       shard: blue
   template:
     metadata:
       labels:
         app: helloworld
         service: world
+        version: world-blue
         shard: blue
     spec:
       containers:
       - name: world
         image: public.ecr.aws/z4m0n1r4/world
         imagePullPolicy: Always
+        env:
+        - name: SHARD
+          value: "blue"
+        - name: PYTHONUNBUFFERED
+          value: "1"
         #command:
         #- "java"
         #- "-jar"
