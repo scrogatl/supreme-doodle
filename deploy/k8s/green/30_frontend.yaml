@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: helloworld
+    service: frontend
+    shard: green
+  name: frontend-green
+  namespace: observability-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+      service: frontend
+      shard: green
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        service: frontend
+        shard: green
+    spec:
+      containers:
+      - name: frontend
+        image: public.ecr.aws/z4m0n1r4/frontend
+        imagePullPolicy: Always
+        env:
+        - name: HELLO_HOST
+          value: "hello.demo.internal"
+        - name: WORLD_HOST
+          value: "world.demo.internal"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        #command:
+        #- "java"
+        #- "-jar"
+        #- "/shopping.jar"
+        #- "server"
+        #- "/conf/shopping-app.yaml"
+        ports:
+        - containerPort: 5000
+          name: application
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: observability-demo
+spec: 
+  selector:
+    app: helloworld
+    service: frontend  
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 5000
+
