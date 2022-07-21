@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
+    print("default route")
     return "Hello"
 
 @app.route("/hash")

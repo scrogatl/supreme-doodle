@@ -3,10 +3,12 @@ FROM python:3.10-slim-bullseye as base
 FROM base as builder
 
 RUN apt update && apt install git python3-pip -y
-RUN apt install bash curl  iputils-ping -y
-#RUN apt autoremove
+RUN apt install bash -y
+RUN apt autoremove
 
 FROM base
+RUN apt update
+RUN apt install bash curl  iputils-ping -y
 
 WORKDIR /
 # Copy app and setup requirements
