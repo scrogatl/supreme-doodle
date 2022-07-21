@@ -15,8 +15,10 @@ def front_end():
 
     resW = requests.get('http://' + worldHost + ':5002')
 
-    print(resH.status_code)
-    print(resH.text)
+    print("Hello status: " + str(resH.status_code))
+    print("Hello text: " + resH.text)
+    print("World status: " + str(resW.status_code))
+    print("World text: " + resW.text)
     return resH.text + ' ' + resW.text
 
 @app.route("/hash")

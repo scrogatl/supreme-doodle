@@ -7,8 +7,8 @@ RUN apt install bash -y
 RUN apt autoremove
 
 FROM base
-RUN apt update
-RUN apt install bash curl  iputils-ping -y
+#RUN apt update
+#RUN apt install bash curl  iputils-ping -y
 
 WORKDIR /
 # Copy app and setup requirements
