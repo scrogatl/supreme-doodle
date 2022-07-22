@@ -1,11 +1,13 @@
 from flask import Flask
+import os
 
 app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    print("default route")
-    return "Hello"
+    shard = os.environ.get('SHARD', "na")
+    print("SHARD: " + shard)
+    return "Hello (" + shard + ")" 
 
 @app.route("/hash")
 def get_hash():
