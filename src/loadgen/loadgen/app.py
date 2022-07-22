@@ -10,10 +10,14 @@ def loadgen():
     print("FRONTEND_HOST: " + front_end)
     
     while (True):
-        res = requests.get('http://' + front_end + ':5000')
         timeString = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-        print(timeString + " - Status: " + str(res.status_code) + " - " + res.text)
+        try:
+            res = requests.get('http://' + front_end + ':5000')
+            print(timeString + " - Status: " + str(res.status_code) + " - " + res.text)
+        except:
+            print(timeString + " - Status: " + str(res.status_code))
         time.sleep(1)
+
 
 def main() -> int:
     loadgen()
