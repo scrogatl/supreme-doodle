@@ -4,6 +4,7 @@ metadata:
   labels:
     app: helloworld
     service: frontend
+    version: frontend-green
     shard: green
   name: frontend-green
   namespace: observability-demo
@@ -12,6 +13,7 @@ spec:
   selector:
     matchLabels:
       app: helloworld
+      version: frontend-green
       service: frontend
       shard: green
   template:
@@ -19,6 +21,7 @@ spec:
       labels:
         app: helloworld
         service: frontend
+        version: frontend-green
         shard: green
     spec:
       containers:
@@ -30,6 +33,8 @@ spec:
           value: "hello.demo.internal"
         - name: WORLD_HOST
           value: "world.demo.internal"
+        - name: SHARD
+          value: "green"
         - name: PYTHONUNBUFFERED
           value: "1"
         #command:

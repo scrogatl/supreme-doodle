@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: helloworld
+    service: loadgen
+    shard: blue
+  name: loadgen-blue
+  namespace: observability-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+      service: loadgen
+      shard: blue
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        service: loadgen
+        shard: blue
+    spec:
+      containers:
+      - name: loadgen
+        image: public.ecr.aws/z4m0n1r4/loadgen
+        imagePullPolicy: Always
+        env:
+        - name: FRONTEND_HOST
+          value: "frontend.demo.internal"
+        - name: PYTHONUNBUFFERED
+          value: "1"

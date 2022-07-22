@@ -8,8 +8,11 @@ app = Flask(__name__)
 def front_end():
     helloHost = os.environ.get('HELLO_HOST', "localhost")
     worldHost = os.environ.get('WORLD_HOST', "localhost")
+    shard = os.environ.get('SHARD', "na")
     print("HELLO_HOST: " + helloHost)
     print("WORLD_HOST: " + worldHost)
+    print("SHARD: " + shard)
+
 
     resH = requests.get('http://' + helloHost + ':5001')
 
@@ -19,7 +22,7 @@ def front_end():
     print("Hello text: " + resH.text)
     print("World status: " + str(resW.status_code))
     print("World text: " + resW.text)
-    return resH.text + ' ' + resW.text
+    return "Frontend (" + shard + ") " + resH.text + ' ' + resW.text
 
 @app.route("/hash")
 def get_hash():
