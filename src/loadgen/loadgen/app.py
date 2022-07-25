@@ -14,14 +14,12 @@ def loadgen():
         try:
             res = requests.get('http://' + front_end + ':5000', timeout=.5)
             if res.status_code >= 300: 
-                print(timeString + " - Status: " + str(res.status_code) + " - " + res.text)
+                print(timeString + " - Status: " + str(res.status_code) + " - " + res.text + " - " + str(res.headers))
             else: 
                 print(timeString + " - Status: " + str(res.status_code) + " - " + res.text)
         except Exception as e:
             print(timeString + " - Status: " + repr(e))
         time.sleep(1)
-
-
 
 if __name__ == '__main__':
     sys.exit(loadgen())  
