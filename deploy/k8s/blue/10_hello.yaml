@@ -2,24 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: helloworld
+    application: helloworld
     service: hello
     version: hello-blue
     shard: blue
   name: hello-blue
-  namespace: observability-demo
+  namespace: tko-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helloworld
+      application: helloworld
       service: hello
       version: hello-blue
       shard: blue
   template:
     metadata:
       labels:
-        app: helloworld
+        application: helloworld
         service: hello
         version: hello-blue
         shard: blue
@@ -48,11 +48,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hello
-  namespace: observability-demo
+  namespace: tko-demo
 spec: 
   selector:
-    app: helloworld
-    service: hello  
+    application: helloworld
+    service: hello
   type: ClusterIP
   ports:
   - name: http

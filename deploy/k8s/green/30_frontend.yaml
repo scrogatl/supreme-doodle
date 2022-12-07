@@ -2,24 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: helloworld
+    application: helloworld
     service: frontend
     version: frontend-green
     shard: green
   name: frontend-green
-  namespace: observability-demo
+  namespace: tko-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helloworld
+      application: helloworld
       version: frontend-green
       service: frontend
       shard: green
   template:
     metadata:
       labels:
-        app: helloworld
+        application: helloworld
         service: frontend
         version: frontend-green
         shard: green
@@ -52,10 +52,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend
-  namespace: observability-demo
+  namespace: tko-demo
 spec: 
   selector:
-    app: helloworld
+    application: helloworld
     service: frontend  
   type: ClusterIP
   ports:

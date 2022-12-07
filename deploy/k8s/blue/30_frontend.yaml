@@ -2,24 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: helloworld
+    application: helloworld
     service: frontend
     version: frontend-blue
     shard: blue
   name: frontend-blue
-  namespace: observability-demo
+  namespace: tko-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helloworld
+      application: helloworld
       service: frontend
       version: frontend-blue
       shard: blue
   template:
     metadata:
       labels:
-        app: helloworld
+        application: helloworld
         service: frontend
         version: frontend-blue
         shard: blue
@@ -30,8 +30,10 @@ spec:
         imagePullPolicy: Always
         env:
         - name: HELLO_HOST
+          # value: "hello"
           value: "hello.demo.internal"
         - name: WORLD_HOST
+          # value: "world"
           value: "world.demo.internal"
         - name: SHARD
           value: "blue"
@@ -52,10 +54,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend
-  namespace: observability-demo
+  namespace: tko-demo
 spec: 
   selector:
-    app: helloworld
+    application: helloworld
     service: frontend  
   type: ClusterIP
   ports:
