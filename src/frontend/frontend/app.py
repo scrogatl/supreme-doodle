@@ -12,7 +12,8 @@ def front_end():
     worldHost = os.environ.get('WORLD_HOST', "localhost")
     shard = os.environ.get('SHARD', "na")
     timeString = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-    res = timeString + " - [frontend: " + shard + "] - "
+    resLocal = timeString 
+    res = " - [frontend: " + shard + "] - "
     try:
         resH = requests.get('http://' + helloHost + ':5001')
         if resH.status_code >= 300:
@@ -22,13 +23,13 @@ def front_end():
 
         resW = requests.get('http://' + worldHost + ':5002')
         if resW.status_code >= 300:
-            res += " | world status: " + str(resW.status_code) + " - " + resW.text + " - " + str(resW.headers)
+            res += " | world status: " + str(resW.status_code) + " - " + resW.text + " - " + " | worldHost: " + worldHost + " | " + str(resW.headers)
         else:
             res += " | world status: " + str(resW.status_code) + " - " + resW.text 
     except Exception as e:
         res += repr(e)
 
-    print (res)
+    print (resLocal + res)
         # print("Hello status: " + str(resH.status_code))
         # print("Hello text: " + resH.text)
         # print("World status: " + str(resW.status_code))
