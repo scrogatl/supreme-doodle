@@ -9,17 +9,17 @@ url = "https://prod-2.nsxservicemesh.vmware.com/tsm/v1alpha2/project/default/glo
 
 payload = json.dumps({
   "description": "policy to split 50% of traffic between blue and green",
-  "service": "world",
+  "service": "hello",
   "traffic_policy": {
     "http": [
       {
         "targets": [
           {
-            "service_version": "world-blue",
+            "service_version": "blue",
             "weight": 50
           },
           {
-            "service_version": "world-green",
+            "service_version": "green",
             "weight": 50
           }
         ]
@@ -35,4 +35,5 @@ headers = {
 
 response = requests.request("PUT", url, headers=headers, data=payload)
 
+print(response.status_code)
 print(json.dumps(response.json(), indent=4))

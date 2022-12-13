@@ -4,9 +4,9 @@ metadata:
   labels:
     application: helloworld
     service: world
-    version: world-green
-    shard: green
-  name: world-green
+    version: blue
+    shard: blue
+  name: world-blue
   namespace: tko-demo
 spec:
   replicas: 1
@@ -14,15 +14,15 @@ spec:
     matchLabels:
       application: helloworld
       service: world
-      version: world-green
-      shard: green
+      version: blue
+      shard: blue
   template:
     metadata:
       labels:
         application: helloworld
         service: world
-        version: world-green
-        shard: green
+        version: blue
+        shard: blue
     spec:
       containers:
       - name: world
@@ -30,7 +30,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: SHARD
-          value: "green"
+          value: "blue"
         - name: PYTHONUNBUFFERED
           value: "1"
         #command:

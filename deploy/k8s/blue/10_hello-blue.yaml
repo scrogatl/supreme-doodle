@@ -2,27 +2,27 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: helloworld
+    application: helloworld
     service: hello
-    version: hello-green
-    shard: green
-  name: hello-green
+    version: blue
+    shard: blue
+  name: hello-blue
   namespace: tko-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helloworld
+      application: helloworld
       service: hello
-      version: hello-green
-      shard: green
+      version: blue
+      shard: blue
   template:
     metadata:
       labels:
-        app: helloworld
+        application: helloworld
         service: hello
-        version: hello-green
-        shard: green
+        version: blue
+        shard: blue
     spec:
       containers:
       - name: hello
@@ -30,7 +30,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: SHARD
-          value: "green"
+          value: "blue"
         - name: PYTHONUNBUFFERED
           value: "1"
         #command:
@@ -51,8 +51,8 @@ metadata:
   namespace: tko-demo
 spec: 
   selector:
-    app: helloworld
-    service: hello  
+    application: helloworld
+    service: hello
   type: ClusterIP
   ports:
   - name: http

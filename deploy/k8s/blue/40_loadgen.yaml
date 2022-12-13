@@ -28,7 +28,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: FRONTEND_HOST
-          value: "frontend"
-          # value: "frontend.demo.internal"
+          # value: "frontend"
+          value: "frontend.demo.internal"
         - name: PYTHONUNBUFFERED
           value: "1"

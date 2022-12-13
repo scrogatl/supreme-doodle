@@ -3,36 +3,32 @@ kind: Deployment
 metadata:
   labels:
     application: helloworld
-    service: frontend
-    version: frontend-green
+    service: world
+    version: green
     shard: green
-  name: frontend-green
+  name: world-green
   namespace: tko-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
       application: helloworld
-      version: frontend-green
-      service: frontend
+      service: world
+      version: green
       shard: green
   template:
     metadata:
       labels:
         application: helloworld
-        service: frontend
-        version: frontend-green
+        service: world
+        version: green
         shard: green
     spec:
       containers:
-      - name: frontend
-        image: public.ecr.aws/z4m0n1r4/frontend
+      - name: world
+        image: public.ecr.aws/z4m0n1r4/world
         imagePullPolicy: Always
         env:
-        - name: HELLO_HOST
-          value: "hello.demo.internal"
-        - name: WORLD_HOST
-          value: "world.demo.internal"
         - name: SHARD
           value: "green"
         - name: PYTHONUNBUFFERED
@@ -44,22 +40,22 @@ spec:
         #- "server"
         #- "/conf/shopping-app.yaml"
         ports:
-        - containerPort: 5000
+        - containerPort: 5002
           name: application
           protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: world
   namespace: tko-demo
 spec: 
   selector:
     application: helloworld
-    service: frontend  
+    service: world  
   type: ClusterIP
   ports:
   - name: http
     protocol: TCP
-    port: 5000
+    port: 5002
 
