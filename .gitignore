@@ -1,0 +1,11 @@
+venv*
+__pycache__
+tokenfile
+keyfile
+keyfile2
+.terraform*
+env.sh
+terraform.tfstate*
+.DS_STORE
+secrets.tfvars
+*.BAK

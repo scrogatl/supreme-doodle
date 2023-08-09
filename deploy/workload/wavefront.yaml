@@ -1,0 +1,92 @@
+#! Need to change YOUR_CLUSTER and YOUR_API_TOKEN accordingly
+#@ load("@ytt:data", "data")
+---
+apiVersion: v1
+stringData:
+  password: #@ data.values.wavefrontToken
+kind: Secret
+metadata:
+  name: wavefront-token
+  namespace: #@ data.values.workloadNamespace
+---
+apiVersion: v1
+stringData:
+  uri: #@ data.values.wavefrontURI
+kind: Secret
+metadata:
+  name: wavefront-uri
+  namespace: #@ data.values.workloadNamespace
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wavefront-proxy
+    name: wavefront-proxy
+  name: wavefront-proxy
+  namespace:  #@ data.values.workloadNamespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wavefront-proxy
+  template:
+    metadata:
+      labels:
+        app: wavefront-proxy
+    spec:
+      containers:
+      - name: wavefront-proxy
+        image: wavefronthq/proxy:latest
+        imagePullPolicy: Always
+        env:
+        - name: WAVEFRONT_URL
+          valueFrom:
+            secretKeyRef:
+              name: wavefront-uri
+              key: uri
+        - name: WAVEFRONT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: wavefront-token
+              key: password
+        - name: WAVEFRONT_PROXY_ARGS
+          value: 
+            --pushListenerPorts 2878 
+            --otlpGrpcListenerPorts 4317 --otlpHttpListenerPorts 4318  
+            --traceJaegerApplicationName doodle-proxy
+            --traceZipkinApplicationName doodle-proxy
+            --proxyname eks10-doodle 
+        ports:
+        - containerPort: 2878
+          protocol: TCP
+        - containerPort: 4317
+          protocol: TCP
+        - containerPort: 4318
+          protocol: TCP
+        securityContext:
+          privileged: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wavefront-proxy
+  labels:
+    app: wavefront-proxy
+  namespace:  #@ data.values.workloadNamespace
+spec:
+  ports:
+  - name: wavefront
+    port: 2878
+    protocol: TCP
+    targetPort: 2878
+  - name: tracing1
+    port: 4317
+    targetPort: 4317
+    protocol: TCP
+  - name: tracing2
+    port: 4318
+    targetPort: 4318
+    protocol: TCP
+  selector:
+    app: wavefront-proxy

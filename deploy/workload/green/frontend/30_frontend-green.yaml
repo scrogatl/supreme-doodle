@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: helloworld
+    service: frontend
+    version: green
+    shard: green
+  name: frontend-green
+  namespace: tko-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: helloworld
+      service: frontend
+      version: green
+      shard: green
+  template:
+    metadata:
+      labels:
+        application: helloworld
+        service: frontend
+        version: green
+        shard: green
+      annotations:
+        autoscaling.knative.dev/minScale: "1" 
+        # sidecar.opentelemetry.io/inject: "true"
+        # instrumentation.opentelemetry.io/inject-python: "tko-demo/doodle-instrumentation"
+    spec:
+      containers:
+      - name: frontend
+        image: public.ecr.aws/z4m0n1r4/frontend
+        imagePullPolicy: Always
+        env:
+        - name: HELLO_HOST
+          value: "hello"
+          # value: "hello.demo.internal"
+        - name: WORLD_HOST
+          value: "world"
+          # value: "world.demo.internal"
+        - name: SHARD
+          value: "green"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://wavefront-proxy.tko-demo.svc.cluster.local:4317"
+        ports:
+        - containerPort: 5000
+          name: application
+          protocol: TCP
+

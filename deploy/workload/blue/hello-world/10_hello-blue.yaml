@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: helloworld
+    service: hello
+    version: blue
+    shard: blue
+  name: hello-blue
+  namespace: tko-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: helloworld
+      service: hello
+      version: blue
+      shard: blue
+  template:
+    metadata:
+      labels:
+        application: helloworld
+        service: hello
+        version: blue
+        shard: blue
+    spec:
+      containers:
+      - name: hello
+        image: public.ecr.aws/z4m0n1r4/hello
+        imagePullPolicy: Always
+        env:
+        - name: SHARD
+          value: "blue"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        ports:
+        - containerPort: 5001
+          name: application
+          protocol: TCP

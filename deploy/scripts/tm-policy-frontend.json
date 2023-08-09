@@ -1,0 +1,20 @@
+{
+    "description": "policy to split 50% of traffic between blue and green",
+    "service": "frontend",
+    "traffic_policy": {
+        "http": [
+        {
+            "targets": [
+            {
+                "service_version": "blue",
+                "weight": 90
+            },
+            {
+                "service_version": "green",
+                "weight": 10
+            }
+            ]
+        }
+        ]
+    }
+}

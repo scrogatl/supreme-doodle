@@ -1,0 +1,108 @@
+LAST SEEN   TYPE      REASON                           OBJECT                                          MESSAGE
+7m50s       Normal    Scheduled                        pod/allspark-ws-proxy-7f8599bd6f-bqzns          Successfully assigned vmware-system-tsm/allspark-ws-proxy-7f8599bd6f-bqzns to ip-192-168-93-186.us-east-2.compute.internal
+7m47s       Normal    Pulling                          pod/allspark-ws-proxy-7f8599bd6f-bqzns          Pulling image "public.ecr.aws/v6x6b8s5/ws-client:v3.3.6"
+7m45s       Normal    Pulled                           pod/allspark-ws-proxy-7f8599bd6f-bqzns          Successfully pulled image "public.ecr.aws/v6x6b8s5/ws-client:v3.3.6" in 1.61214475s (1.612170838s including waiting)
+7m45s       Normal    Created                          pod/allspark-ws-proxy-7f8599bd6f-bqzns          Created container allspark-ws-proxy
+7m45s       Normal    Started                          pod/allspark-ws-proxy-7f8599bd6f-bqzns          Started container allspark-ws-proxy
+7m50s       Normal    SuccessfulCreate                 replicaset/allspark-ws-proxy-7f8599bd6f         Created pod: allspark-ws-proxy-7f8599bd6f-bqzns
+7m50s       Normal    ScalingReplicaSet                deployment/allspark-ws-proxy                    Scaled up replica set allspark-ws-proxy-7f8599bd6f to 1
+7m2s        Normal    Scheduled                        pod/check-client-crds-8xq6x                     Successfully assigned vmware-system-tsm/check-client-crds-8xq6x to ip-192-168-93-186.us-east-2.compute.internal
+7m1s        Normal    Pulling                          pod/check-client-crds-8xq6x                     Pulling image "public.ecr.aws/v6x6b8s5/vmwareallspark/kubectl:1.16"
+6m58s       Normal    Pulled                           pod/check-client-crds-8xq6x                     Successfully pulled image "public.ecr.aws/v6x6b8s5/vmwareallspark/kubectl:1.16" in 3.659623386s (3.659643708s including waiting)
+6m58s       Normal    Created                          pod/check-client-crds-8xq6x                     Created container check-client-crds
+6m57s       Normal    Started                          pod/check-client-crds-8xq6x                     Started container check-client-crds
+7m2s        Normal    SuccessfulCreate                 job/check-client-crds                           Created pod: check-client-crds-8xq6x
+6m48s       Normal    Completed                        job/check-client-crds                           Job completed
+7m49s       Normal    Scheduled                        pod/config-service-674dc78b7d-x7tbn             Successfully assigned vmware-system-tsm/config-service-674dc78b7d-x7tbn to ip-192-168-115-127.us-east-2.compute.internal
+7m48s       Warning   FailedMount                      pod/config-service-674dc78b7d-x7tbn             MountVolume.SetUp failed for volume "meshconfig-volume" : failed to sync configmap cache: timed out waiting for the condition
+7m48s       Warning   FailedMount                      pod/config-service-674dc78b7d-x7tbn             MountVolume.SetUp failed for volume "logging-volume" : failed to sync configmap cache: timed out waiting for the condition
+7m48s       Warning   FailedMount                      pod/config-service-674dc78b7d-x7tbn             MountVolume.SetUp failed for volume "controller-kubeconfig" : failed to sync configmap cache: timed out waiting for the condition
+7m48s       Warning   FailedMount                      pod/config-service-674dc78b7d-x7tbn             MountVolume.SetUp failed for volume "config-service-templates" : failed to sync configmap cache: timed out waiting for the condition
+7m47s       Normal    Pulling                          pod/config-service-674dc78b7d-x7tbn             Pulling image "public.ecr.aws/v6x6b8s5/config-service:v1.1.13"
+7m43s       Normal    Pulled                           pod/config-service-674dc78b7d-x7tbn             Successfully pulled image "public.ecr.aws/v6x6b8s5/config-service:v1.1.13" in 4.086787431s (4.086806105s including waiting)
+7m43s       Normal    Created                          pod/config-service-674dc78b7d-x7tbn             Created container config-service
+7m43s       Normal    Started                          pod/config-service-674dc78b7d-x7tbn             Started container config-service
+7m49s       Normal    SuccessfulCreate                 replicaset/config-service-674dc78b7d            Created pod: config-service-674dc78b7d-x7tbn
+7m49s       Normal    ScalingReplicaSet                deployment/config-service                       Scaled up replica set config-service-674dc78b7d to 1
+6m23s       Normal    Scheduled                        pod/installer-job-p7jvv                         Successfully assigned vmware-system-tsm/installer-job-p7jvv to ip-192-168-93-186.us-east-2.compute.internal
+6m22s       Normal    Pulling                          pod/installer-job-p7jvv                         Pulling image "public.ecr.aws/v6x6b8s5/vmwareallspark/service-mesh-manifests:tsm-v17.3.0"
+6m18s       Normal    Pulled                           pod/installer-job-p7jvv                         Successfully pulled image "public.ecr.aws/v6x6b8s5/vmwareallspark/service-mesh-manifests:tsm-v17.3.0" in 4.501073664s (4.501083166s including waiting)
+6m18s       Normal    Created                          pod/installer-job-p7jvv                         Created container service-mesh-manifests
+6m18s       Normal    Started                          pod/installer-job-p7jvv                         Started container service-mesh-manifests
+6m8s        Normal    Pulling                          pod/installer-job-p7jvv                         Pulling image "public.ecr.aws/v6x6b8s5/vmwareallspark/service-mesh-installer:v0.4.0"
+6m7s        Normal    Pulled                           pod/installer-job-p7jvv                         Successfully pulled image "public.ecr.aws/v6x6b8s5/vmwareallspark/service-mesh-installer:v0.4.0" in 1.445085935s (1.44510725s including waiting)
+6m7s        Normal    Created                          pod/installer-job-p7jvv                         Created container service-mesh-installer
+6m6s        Normal    Started                          pod/installer-job-p7jvv                         Started container service-mesh-installer
+6m23s       Normal    SuccessfulCreate                 job/installer-job                               Created pod: installer-job-p7jvv
+5m8s        Normal    Completed                        job/installer-job                               Job completed
+7m50s       Normal    Scheduled                        pod/k8s-cluster-manager-bb764bc84-ggbvb         Successfully assigned vmware-system-tsm/k8s-cluster-manager-bb764bc84-ggbvb to ip-192-168-8-227.us-east-2.compute.internal
+7m49s       Normal    Pulling                          pod/k8s-cluster-manager-bb764bc84-ggbvb         Pulling image "public.ecr.aws/v6x6b8s5/k8s-cluster-manager:v6.4.9"
+7m47s       Normal    Pulled                           pod/k8s-cluster-manager-bb764bc84-ggbvb         Successfully pulled image "public.ecr.aws/v6x6b8s5/k8s-cluster-manager:v6.4.9" in 2.078532024s (2.07855142s including waiting)
+7m47s       Normal    Created                          pod/k8s-cluster-manager-bb764bc84-ggbvb         Created container k8s-cluster-manager
+7m47s       Normal    Started                          pod/k8s-cluster-manager-bb764bc84-ggbvb         Started container k8s-cluster-manager
+7m50s       Normal    SuccessfulCreate                 replicaset/k8s-cluster-manager-bb764bc84        Created pod: k8s-cluster-manager-bb764bc84-ggbvb
+7m50s       Normal    ScalingReplicaSet                deployment/k8s-cluster-manager                  Scaled up replica set k8s-cluster-manager-bb764bc84 to 1
+7m49s       Normal    Scheduled                        pod/kickstarter-2c2k2                           Successfully assigned vmware-system-tsm/kickstarter-2c2k2 to ip-192-168-93-186.us-east-2.compute.internal
+7m48s       Normal    Pulled                           pod/kickstarter-2c2k2                           Container image "public.ecr.aws/v6x6b8s5/enterprise-kickstarter:v0.0.5" already present on machine
+7m48s       Normal    Created                          pod/kickstarter-2c2k2                           Created container kickstarter
+7m48s       Normal    Started                          pod/kickstarter-2c2k2                           Started container kickstarter
+7m49s       Normal    SuccessfulCreate                 job/kickstarter                                 Created pod: kickstarter-2c2k2
+6m5s        Normal    Completed                        job/kickstarter                                 Job completed
+7m2s        Normal    Scheduled                        pod/policy-7b7dbcdcb7-pntjf                     Successfully assigned vmware-system-tsm/policy-7b7dbcdcb7-pntjf to ip-192-168-93-186.us-east-2.compute.internal
+7m1s        Normal    Pulling                          pod/policy-7b7dbcdcb7-pntjf                     Pulling image "public.ecr.aws/v6x6b8s5/vmwareallspark/kubectl:1.16"
+6m58s       Normal    Pulled                           pod/policy-7b7dbcdcb7-pntjf                     Successfully pulled image "public.ecr.aws/v6x6b8s5/vmwareallspark/kubectl:1.16" in 3.560433233s (3.560441106s including waiting)
+6m58s       Normal    Created                          pod/policy-7b7dbcdcb7-pntjf                     Created container check-crd
+6m57s       Normal    Started                          pod/policy-7b7dbcdcb7-pntjf                     Started container check-crd
+6m47s       Normal    Pulling                          pod/policy-7b7dbcdcb7-pntjf                     Pulling image "public.ecr.aws/v6x6b8s5/policy-service:63f07e9c"
+6m40s       Normal    Pulled                           pod/policy-7b7dbcdcb7-pntjf                     Successfully pulled image "public.ecr.aws/v6x6b8s5/policy-service:63f07e9c" in 6.695932131s (6.695943403s including waiting)
+6m40s       Normal    Created                          pod/policy-7b7dbcdcb7-pntjf                     Created container policy
+6m40s       Normal    Started                          pod/policy-7b7dbcdcb7-pntjf                     Started container policy
+7m2s        Normal    SuccessfulCreate                 replicaset/policy-7b7dbcdcb7                    Created pod: policy-7b7dbcdcb7-pntjf
+7m2s        Normal    ScalingReplicaSet                deployment/policy                               Scaled up replica set policy-7b7dbcdcb7 to 1
+5m27s       Normal    Scheduled                        pod/telegraf-istio-code-686fcb99f9-2kdbj        Successfully assigned vmware-system-tsm/telegraf-istio-code-686fcb99f9-2kdbj to ip-192-168-115-127.us-east-2.compute.internal
+5m26s       Normal    Pulling                          pod/telegraf-istio-code-686fcb99f9-2kdbj        Pulling image "public.ecr.aws/v6x6b8s5/metrics-proxy:v3.4.1"
+5m24s       Normal    Pulled                           pod/telegraf-istio-code-686fcb99f9-2kdbj        Successfully pulled image "public.ecr.aws/v6x6b8s5/metrics-proxy:v3.4.1" in 2.387344834s (2.387351993s including waiting)
+5m24s       Normal    Created                          pod/telegraf-istio-code-686fcb99f9-2kdbj        Created container telegraf
+5m24s       Normal    Started                          pod/telegraf-istio-code-686fcb99f9-2kdbj        Started container telegraf
+5m27s       Normal    SuccessfulCreate                 replicaset/telegraf-istio-code-686fcb99f9       Created pod: telegraf-istio-code-686fcb99f9-2kdbj
+5m27s       Normal    ScalingReplicaSet                deployment/telegraf-istio-code                  Scaled up replica set telegraf-istio-code-686fcb99f9 to 1
+5m27s       Normal    Scheduled                        pod/telegraf-istio-count-d87475dbc-kqmnx        Successfully assigned vmware-system-tsm/telegraf-istio-count-d87475dbc-kqmnx to ip-192-168-115-127.us-east-2.compute.internal
+5m26s       Normal    Pulling                          pod/telegraf-istio-count-d87475dbc-kqmnx        Pulling image "public.ecr.aws/v6x6b8s5/metrics-proxy:v3.4.1"
+5m24s       Normal    Pulled                           pod/telegraf-istio-count-d87475dbc-kqmnx        Successfully pulled image "public.ecr.aws/v6x6b8s5/metrics-proxy:v3.4.1" in 2.455698991s (2.455708419s including waiting)
+5m24s       Normal    Created                          pod/telegraf-istio-count-d87475dbc-kqmnx        Created container telegraf
+5m24s       Normal    Started                          pod/telegraf-istio-count-d87475dbc-kqmnx        Started container telegraf
+5m27s       Normal    SuccessfulCreate                 replicaset/telegraf-istio-count-d87475dbc       Created pod: telegraf-istio-count-d87475dbc-kqmnx
+5m27s       Normal    ScalingReplicaSet                deployment/telegraf-istio-count                 Scaled up replica set telegraf-istio-count-d87475dbc to 1
+5m27s       Normal    Scheduled                        pod/telegraf-istio-duration-7b97555cf7-bv6k9    Successfully assigned vmware-system-tsm/telegraf-istio-duration-7b97555cf7-bv6k9 to ip-192-168-115-127.us-east-2.compute.internal
+5m26s       Normal    Pulling                          pod/telegraf-istio-duration-7b97555cf7-bv6k9    Pulling image "public.ecr.aws/v6x6b8s5/metrics-proxy:v3.4.1"
+5m24s       Normal    Pulled                           pod/telegraf-istio-duration-7b97555cf7-bv6k9    Successfully pulled image "public.ecr.aws/v6x6b8s5/metrics-proxy:v3.4.1" in 2.422652456s (2.422669602s including waiting)
+5m24s       Normal    Created                          pod/telegraf-istio-duration-7b97555cf7-bv6k9    Created container telegraf
+5m24s       Normal    Started                          pod/telegraf-istio-duration-7b97555cf7-bv6k9    Started container telegraf
+5m27s       Normal    SuccessfulCreate                 replicaset/telegraf-istio-duration-7b97555cf7   Created pod: telegraf-istio-duration-7b97555cf7-bv6k9
+5m27s       Normal    ScalingReplicaSet                deployment/telegraf-istio-duration              Scaled up replica set telegraf-istio-duration-7b97555cf7 to 1
+5m27s       Normal    Scheduled                        pod/telegraf-nodes-7fd65d7f7d-lrp76             Successfully assigned vmware-system-tsm/telegraf-nodes-7fd65d7f7d-lrp76 to ip-192-168-115-127.us-east-2.compute.internal
+5m26s       Normal    Pulling                          pod/telegraf-nodes-7fd65d7f7d-lrp76             Pulling image "public.ecr.aws/v6x6b8s5/metrics-proxy:v3.4.1"
+5m24s       Normal    Pulled                           pod/telegraf-nodes-7fd65d7f7d-lrp76             Successfully pulled image "public.ecr.aws/v6x6b8s5/metrics-proxy:v3.4.1" in 1.862692357s (1.862716981s including waiting)
+5m24s       Normal    Created                          pod/telegraf-nodes-7fd65d7f7d-lrp76             Created container telegraf
+5m24s       Normal    Started                          pod/telegraf-nodes-7fd65d7f7d-lrp76             Started container telegraf
+5m27s       Normal    SuccessfulCreate                 replicaset/telegraf-nodes-7fd65d7f7d            Created pod: telegraf-nodes-7fd65d7f7d-lrp76
+5m27s       Normal    ScalingReplicaSet                deployment/telegraf-nodes                       Scaled up replica set telegraf-nodes-7fd65d7f7d to 1
+7m2s        Normal    Scheduled                        pod/telemetry-58599b4d8b-r286c                  Successfully assigned vmware-system-tsm/telemetry-58599b4d8b-r286c to ip-192-168-115-127.us-east-2.compute.internal
+7m1s        Normal    Pulling                          pod/telemetry-58599b4d8b-r286c                  Pulling image "public.ecr.aws/v6x6b8s5/vmwareallspark/kubectl:1.16"
+6m58s       Normal    Pulled                           pod/telemetry-58599b4d8b-r286c                  Successfully pulled image "public.ecr.aws/v6x6b8s5/vmwareallspark/kubectl:1.16" in 3.574091265s (3.574111185s including waiting)
+6m58s       Normal    Created                          pod/telemetry-58599b4d8b-r286c                  Created container check-crd
+6m58s       Normal    Started                          pod/telemetry-58599b4d8b-r286c                  Started container check-crd
+6m47s       Normal    Pulling                          pod/telemetry-58599b4d8b-r286c                  Pulling image "public.ecr.aws/v6x6b8s5/telemetry-plugin:v3.0.0"
+6m42s       Normal    Pulled                           pod/telemetry-58599b4d8b-r286c                  Successfully pulled image "public.ecr.aws/v6x6b8s5/telemetry-plugin:v3.0.0" in 4.772462433s (4.772472928s including waiting)
+6m42s       Normal    Created                          pod/telemetry-58599b4d8b-r286c                  Created container mixer
+6m42s       Normal    Started                          pod/telemetry-58599b4d8b-r286c                  Started container mixer
+7m2s        Normal    SuccessfulCreate                 replicaset/telemetry-58599b4d8b                 Created pod: telemetry-58599b4d8b-r286c
+7m2s        Normal    ScalingReplicaSet                deployment/telemetry                            Scaled up replica set telemetry-58599b4d8b to 1
+7m54s       Normal    Scheduled                        pod/tsm-agent-operator-77db7d99b6-zblk7         Successfully assigned vmware-system-tsm/tsm-agent-operator-77db7d99b6-zblk7 to ip-192-168-115-127.us-east-2.compute.internal
+7m54s       Normal    Pulled                           pod/tsm-agent-operator-77db7d99b6-zblk7         Container image "public.ecr.aws/v6x6b8s5/tsm-agent-operator:v3.6.13" already present on machine
+7m54s       Normal    Created                          pod/tsm-agent-operator-77db7d99b6-zblk7         Created container tsm-agent-operator
+7m54s       Normal    Started                          pod/tsm-agent-operator-77db7d99b6-zblk7         Started container tsm-agent-operator
+7m54s       Normal    SuccessfulCreate                 replicaset/tsm-agent-operator-77db7d99b6        Created pod: tsm-agent-operator-77db7d99b6-zblk7
+7m55s       Normal    ScalingReplicaSet                deployment/tsm-agent-operator                   Scaled up replica set tsm-agent-operator-77db7d99b6 to 1
+20s         Normal    Synced                           tsmcluster/tsm-client-cluster                   TsmCluster synced successfully
+7m55s       Warning   FailedExtensionProcessingState   extension/tsm-operator-extension                failed to process extension tsm-operator-extension, error: get extension deployment: reading deployment tsm-agent-operator in namespace : Deployment.apps "tsm-agent-operator" not found

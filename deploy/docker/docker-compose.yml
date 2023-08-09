@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  world:
+    image: public.ecr.aws/z4m0n1r4/world
+    container_name: world
+    environment: 
+      - SHARD=blue
+      - PYTHONUNBUFFERED=1
+
+  hello:
+    image: public.ecr.aws/z4m0n1r4/hello
+    container_name: hello
+    environment: 
+      - SHARD=blue
+      - PYTHONUNBUFFERED=1
+
+  frontend:
+    image: public.ecr.aws/z4m0n1r4/frontend
+    container_name: frontend
+    environment: 
+      - HELLO_HOST=hello
+      - WORLD_HOST=world
+      - SHARD=blue
+      - PYTHONUNBUFFERED=1
+
+  sd-loadgen:
+    image: public.ecr.aws/z4m0n1r4/sd-loadgen
+    container_name: sd-loadgen
+    environment: 
+      - FRONTEND_HOST=frontend
+      - WORLD_HOST=world
+      - SLEEP_TIME=1000
+      - PYTHONUNBUFFERED=1
