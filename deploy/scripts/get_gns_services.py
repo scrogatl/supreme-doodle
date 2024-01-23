@@ -7,7 +7,7 @@ def get_gns_services(gnsID):
   key = tokenfile.read()
   tokenfile.close()
 
-  url = "https://prod-2.nsxservicemesh.vmware.com/tsm/v1alpha1/global-namespaces/" + gnsID + "/members"
+  url = "https://prod-4-1.nsxservicemesh.vmware.com/tsm/v1alpha1/global-namespaces/" + gnsID + "/members"
 
   payload={}
   headers = {

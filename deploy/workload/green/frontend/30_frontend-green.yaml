@@ -34,17 +34,18 @@ spec:
         imagePullPolicy: Always
         env:
         - name: HELLO_HOST
-          value: "hello"
-          # value: "hello.demo.internal"
+          # value: "hello"
+          # value: "hello.tsmdemo.internal"
+          value: "hello.doodle.internal"
         - name: WORLD_HOST
-          value: "world"
-          # value: "world.demo.internal"
+          # value: "world"
+          value: "world.doodle.internal"
         - name: SHARD
           value: "green"
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
-          value: "http://wavefront-proxy.tko-demo.svc.cluster.local:4317"
+          value: "http://wavefront-proxy.tko-demo.svc.cluster.local"
         ports:
         - containerPort: 5000
           name: application

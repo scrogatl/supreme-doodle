@@ -16,7 +16,7 @@ def loadgen():
         try:
             res = requests.get('http://' + front_end + ':5000', timeout=.5)
             if res.status_code >= 300: 
-                print(timeString + " - [loadgen] - Status: " + str(res.status_code) + " - " + res.text + " - " + str(res.headers))
+                print(timeString + " - [loadgen] - Status: " + str(res.status_code) + " - " + res.text )
             else: 
                 print(timeString + " - [loadgen] - Status: " + str(res.status_code) + " - " + res.text)
         except Exception as e:

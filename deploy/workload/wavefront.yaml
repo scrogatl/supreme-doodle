@@ -54,8 +54,6 @@ spec:
           value: 
             --pushListenerPorts 2878 
             --otlpGrpcListenerPorts 4317 --otlpHttpListenerPorts 4318  
-            --traceJaegerApplicationName doodle-proxy
-            --traceZipkinApplicationName doodle-proxy
             --proxyname eks10-doodle 
         ports:
         - containerPort: 2878

@@ -29,9 +29,9 @@ spec:
         env:
         - name: FRONTEND_HOST
           value: "frontend"
-          # value: "frontend.demo.internal"
+          # value: "frontend.doodle.internal"
         - name: SLEEP_TIME
-          value: "1000"
+          value: "10000"
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: ENVRIONMENT

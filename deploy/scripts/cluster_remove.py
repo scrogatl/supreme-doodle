@@ -7,7 +7,7 @@ def delete_cluster(cluster_id):
   tokenfile = open("tokenfile", "r")
   key = tokenfile.read()
   tokenfile.close()
-  url = "https://prod-2.nsxservicemesh.vmware.com/tsm/v1alpha1/clusters/" + cluster_id 
+  url = "https://prod-4-1.nsxservicemesh.vmware.com/tsm/v1alpha1/clusters/" + cluster_id 
   payload={}
 
   headers = {

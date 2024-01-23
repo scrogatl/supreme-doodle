@@ -1,3 +1,2 @@
-mid-mo-vmug-01
-mid-mo-vmug-02
-mid-mo-vmug-03
+tsm-demo-eks-3-01
+tsm-demo-eks-3-02
