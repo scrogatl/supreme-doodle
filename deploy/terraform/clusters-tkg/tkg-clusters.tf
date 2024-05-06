@@ -25,8 +25,57 @@ terraform {
   required_providers {
     tanzu-mission-control = {
       source = "vmware/tanzu-mission-control"
-      version = "1.1.4"
+      version = "1.4.4"
     }
+  }
+}
+
+locals {
+  tkgs_cluster_variables = {
+    "controlPlaneCertificateRotation" : {
+      "activate" : false,
+      "daysBefore" : 30
+    },
+    "defaultStorageClass" : "vsan-default-storage-policy",
+    "defaultVolumeSnapshotClass" : "volumesnapshotclass-delete",
+    "nodePoolLabels" : [
+
+    ],
+    "nodePoolVolumes" : [
+      {
+        "capacity" : {
+          "storage" : "60G"
+        },
+        "mountPath" : "/var/lib/containerd",
+        "name" : "containerd",
+        "storageClass" : "vsan-default-storage-policy"
+      },
+      {
+        "capacity" : {
+          "storage" : "20G"
+        },
+        "mountPath" : "/var/lib/kubelet",
+        "name" : "kubelet",
+        "storageClass" : "vsan-default-storage-policy"
+      }
+    ],
+    "ntp" : "172.16.20.10",
+    "storageClass" : "vsan-default-storage-policy",
+    "storageClasses" : [
+      "vsan-default-storage-policy"
+    ],
+    "vmClass" : "best-effort-large"
+  }
+
+  tkgs_nodepool_a_overrides = {
+    "nodePoolLabels" : [
+      {
+        "key" : "sample-worker-label",
+        "value" : "value"
+      }
+    ],
+    "storageClass" : "vsan-default-storage-policy",
+    "vmClass" : "guaranteed-2xlarge"
   }
 }
 
@@ -35,105 +84,62 @@ provider "tanzu-mission-control" {
   vmw_cloud_api_token   = var.vmw_cloud_api_token
 }
 
-# Create Tanzu Mission Control Tanzu Kubernetes Grid Service workload cluster entry
-resource "tanzu-mission-control_cluster" "create_tkgs_workload" {
+resource "tanzu-mission-control_tanzu_kubernetes_cluster" "tkgs_cluster" {
   count = length(var.cluster_names)
   management_cluster_name = var.management_cluster_name
   provisioner_name        = var.provisioner_name
   name                    = var.cluster_names[count.index]
 
-  meta {
-    labels = { "env" : "tko-tsm-demo",
-               "source" : "terraform" }
-  }
-
   spec {
-    cluster_group = "rogerssc-demo-clusters"
-    tkg_service_vsphere {
-      settings {
-        network {
-          pods {
-            cidr_blocks = [
-              "172.20.0.0/16", # pods cidr block by default has the value `172.20.0.0/16`
-            ]
-          }
-          services {
-            cidr_blocks = [
-              "10.96.0.0/16", # services cidr block by default has the value `10.96.0.0/16`
-            ]
-          }
-        }
-        storage {
-          classes = [
-            "vsan-default-storage-policy",
-          ]
-          default_class = "vsan-default-storage-policy"
+    cluster_group_name = "gartner-cm-mq-2024-datacenter"
+
+    topology {
+      version           = "v1.26.5+vmware.2-fips.1-tkg.1"
+      cluster_class     = "tanzukubernetescluster"
+      cluster_variables = jsonencode(local.tkgs_cluster_variables)
+
+      control_plane {
+        replicas = 1
+
+        os_image {
+          name    = "photon"
+          version = "3"
+          arch    = "amd64"
         }
       }
 
-      distribution {
-        version = "v1.23.8+vmware.3-tkg.1.ubuntu"
+      nodepool {
+        name        = "md-0"
+        description = "simple small md"
+
+        spec {
+          worker_class = "node-pool"
+          replicas     = 3
+          overrides    = jsonencode(local.tkgs_nodepool_a_overrides)
+
+          os_image {
+            name    = "photon"
+            version = "3"
+            arch    = "amd64"
+          }
+        }
       }
 
-      topology {
-        control_plane {
-          class         = "guaranteed-2xlarge"
-          storage_class = "vsan-default-storage-policy"
-          high_availability = false
-          volumes {
-            capacity          = 4
-            mount_path        = "/var/lib/etcd"
-            name              = "etcd-0"
-            pvc_storage_class = "vsan-default-storage-policy"
-          }
-        }
-        node_pools {
-          spec {
-            worker_node_count = "4"
-            cloud_label = {
-              "key1" : "val1"
-            }
-            node_label = {
-              "key2" : "val2"
-            }
-
-            tkg_service_vsphere {
-              class         = "guaranteed-2xlarge"
-              storage_class = "vsan-default-storage-policy"
-              # storage class is either `wcpglobal-storage-profile` or `gc-storage-profile`
-              volumes {
-                capacity          = 3
-                mount_path        = "/var/lib/etcd"
-                name              = "etcd-0"
-                pvc_storage_class = "vsan-default-storage-policy"
-              }
-            }
-          }
-          info {
-            name        = "default-nodepool" # default node pool name `default-nodepool`
-            description = "tkgs workload nodepool"
-          }
-        }
+      network {
+        pod_cidr_blocks = [
+          "100.96.0.0/11",
+        ]
+        service_cidr_blocks = [
+          "100.64.0.0/13",
+        ]
+        service_domain = "cluster.local"
       }
     }
   }
-}
 
-# Create Tanzu Mission Control namespace with attached set as default value.
-resource "tanzu-mission-control_namespace" "create_namespace" {
-  count = length(var.cluster_names)
-  management_cluster_name = var.management_cluster_name
-  provisioner_name        = var.provisioner_name
-  cluster_name            = var.cluster_names[count.index]
-  name                    = "tko-demo" # Required
-
-  meta {
-    description = "Create namespace through terraform"
-    labels      = { "key" : "value" }
-  }
-
-  spec {
-    workspace_name = "default" # Default: 
+  timeout_policy {
+    timeout             = 60
+    wait_for_kubeconfig = true
+    fail_on_timeout     = true
   }
 }
-    
