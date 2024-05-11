@@ -7,7 +7,7 @@ metadata:
     version: blue
     shard: blue
   name: frontend-blue
-  namespace: tko-demo
+  namespace: supreme-doodle
 spec:
   replicas: 1
   selector:

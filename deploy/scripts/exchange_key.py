@@ -2,7 +2,7 @@ import requests
 import json
 import sys
 
-keyfile = open("keyfile2", "r")
+keyfile = open("keyfile3", "r")
 key = keyfile.read()
 keyfile.close()
 
@@ -12,11 +12,11 @@ payload='refresh_token=' + key.strip('\n')
 headers = {
   'Content-Type': 'application/x-www-form-urlencoded',
 }
-# print(payload)
+print(payload)
 
 response = requests.request("POST", url, headers=headers, data=payload)
 
-# print(response.json()['access_token'])
+print(response.json()['access_token'])
 tokenfile = open("tokenfile", "w")
 tokenfile.write(response.json()['access_token'])
 tokenfile.close

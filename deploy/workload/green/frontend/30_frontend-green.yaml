@@ -7,7 +7,7 @@ metadata:
     version: green
     shard: green
   name: frontend-green
-  namespace: tko-demo
+  namespace: supreme-doodle
 spec:
   replicas: 1
   selector:
@@ -26,7 +26,7 @@ spec:
       annotations:
         autoscaling.knative.dev/minScale: "1" 
         # sidecar.opentelemetry.io/inject: "true"
-        # instrumentation.opentelemetry.io/inject-python: "tko-demo/doodle-instrumentation"
+        # instrumentation.opentelemetry.io/inject-python: "supreme-doodle/doodle-instrumentation"
     spec:
       containers:
       - name: frontend
@@ -45,7 +45,7 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
-          value: "http://wavefront-proxy.tko-demo.svc.cluster.local"
+          value: "http://wavefront-proxy.supreme-doodle.svc.cluster.local"
         ports:
         - containerPort: 5000
           name: application

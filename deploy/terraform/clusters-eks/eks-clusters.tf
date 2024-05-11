@@ -30,7 +30,7 @@ terraform {
   required_providers {
     tanzu-mission-control = {
       source = "vmware/tanzu-mission-control"
-      version = "1.1.7"
+      version = "1.3.0"
     }
   }
 }
@@ -42,7 +42,7 @@ provider "tanzu-mission-control" {
 
 # Create a Tanzu Mission Control AWS EKS cluster entry
 resource "tanzu-mission-control_ekscluster" "tf_eks_cluster" {
-  credential_name = "rogerssc-eks-10"          // Required
+  credential_name = "rogerssc-eks-31"          // Required
   region          = "us-east-2"         // Required
   count           = length(var.cluster_names)
   name            = var.cluster_names[count.index]
@@ -61,7 +61,7 @@ resource "tanzu-mission-control_ekscluster" "tf_eks_cluster" {
     config {
       role_arn = var.arn_control
 
-      kubernetes_version = "1.25" // Required
+      kubernetes_version = "1.26" // Required
       tags               = { "tagkey" : "tagvalue" }
 
       kubernetes_network_config {
@@ -82,14 +82,14 @@ resource "tanzu-mission-control_ekscluster" "tf_eks_cluster" {
         public_access_cidrs = [
           "0.0.0.0/0",
         ]
-        security_groups = [ // Forces new
-          "sg-0655ea52c9d824707",
-        ]
+        # security_groups = [ // Forces new
+        #   "",
+        # ]
         subnet_ids = [ // Forces new
-          "subnet-0ef23f34bbefe2bdb",
-          "subnet-0589755c56e49232e",
-          "subnet-0ae912a90c4fc4026",
-          "subnet-0d25f5fc37428f80f",
+          "subnet-04a5c86b5cec5c560",
+          "subnet-0f87bd9f0f4c624be",
+          "subnet-08203dada18acd320",
+          "subnet-0d5a812cd39f854b2",
         ]
       }
     }
@@ -105,15 +105,15 @@ resource "tanzu-mission-control_ekscluster" "tf_eks_cluster" {
 
         ami_type       = "AL2_x86_64"
         # capacity_type  = "ON_DEMAND"
-        # root_disk_size = 40 // Default: 20GiB
+        # root_disk_size = 120 // Default: 20GiB
         tags           = { "nptag" : "nptagvalue9" }
         node_labels    = { "nplabelkey" : "nplabelvalue" }
 
-        subnet_ids = [ // Required
-          "subnet-0ef23f34bbefe2bdb",
-          "subnet-0589755c56e49232e",
-          "subnet-0ae912a90c4fc4026",
-          "subnet-0d25f5fc37428f80f",
+        subnet_ids = [ // Forces new
+          "subnet-04a5c86b5cec5c560",
+          "subnet-0f87bd9f0f4c624be",
+          "subnet-08203dada18acd320",
+          "subnet-0d5a812cd39f854b2",
         ]
 
         scaling_config {
