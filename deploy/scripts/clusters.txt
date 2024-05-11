@@ -1,2 +1,0 @@
-tsm-demo-eks-3-01
-tsm-demo-eks-3-02
