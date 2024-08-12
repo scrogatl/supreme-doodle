@@ -1,32 +1,40 @@
 version: '2'
 
 services:
+  world-ruby:
+    image: gitops-doodle-world-ruby
+    container_name: world-ruby
+    environment: 
+      - SHARD=blue
+
   world:
-    image: public.ecr.aws/z4m0n1r4/world
+    image: gitops-doodle-world
     container_name: world
     environment: 
       - SHARD=blue
       - PYTHONUNBUFFERED=1
 
   hello:
-    image: public.ecr.aws/z4m0n1r4/hello
+    image: gitops-doodle-hello
     container_name: hello
     environment: 
       - SHARD=blue
       - PYTHONUNBUFFERED=1
 
   frontend:
-    image: public.ecr.aws/z4m0n1r4/frontend
+    image: gitops-doodle-frontend
     container_name: frontend
     environment: 
       - HELLO_HOST=hello
       - WORLD_HOST=world
+      - WORLD_HOST_RUBY=world-ruby
+      - WPORT_RUBY=5003
       - SHARD=blue
       - PYTHONUNBUFFERED=1
 
-  sd-loadgen:
-    image: public.ecr.aws/z4m0n1r4/sd-loadgen
-    container_name: sd-loadgen
+  loadgen:
+    image: gitops-doodle-loadgen
+    container_name: loadgen
     environment: 
       - FRONTEND_HOST=frontend
       - WORLD_HOST=world
