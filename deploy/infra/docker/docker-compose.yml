@@ -1,5 +1,3 @@
-version: '2'
-
 services:
   world-ruby:
     image: gitops-doodle-world-ruby
@@ -9,44 +7,60 @@ services:
 
   world:
     image: gitops-doodle-world
+    ports: 
+      - 5002:5002
     container_name: world
     environment: 
-      - SHARD=blue
+      - SHARD=docker-local
       - PYTHONUNBUFFERED=1
+      - OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net
+      - OTEL_EXPORTER_OTLP_HEADERS=api-key=
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf 
+      - NEW_RELIC_LICENSE_KEY=
+    # command: opentelemetry-instrument --logs_exporter otlp flask run --debugger --host=0.0.0.0 -p 5002
+    # command: newrelic-admin run-program flask run --host=0.0.0.0 -p 5002
 
   hello:
     image: gitops-doodle-hello
     container_name: hello
     environment: 
       - SHARD=blue
+      - WEATHER_HOST=weather
       - PYTHONUNBUFFERED=1
-      - ERROR_THRESH=1 
+      - ERROR_THRESH=10 
+      - WEATHER_THRESH=75
+      - OTEL_EXPORTER_OTLP_HEADERS=api-key=
+
+          
 
   frontend:
     image: gitops-doodle-frontend
     container_name: frontend  
     environment: 
       - HELLO_HOST=hello
+      - WPORT=5002
       - WORLD_HOST=world
       - WORLD_HOST_RUBY=world-ruby
       - WPORT_RUBY=5003
       - SHARD=blue
       - PYTHONUNBUFFERED=1
-      - WHICH_WORLD=50
+      - WHICH_WORLD=99
+      # - OTEL_EXPORTER_OTLP_HEADERS=api-key=
+      - NEW_RELIC_LICENSE_KEY=
+
+
 
   weather:
     image: gitops-doodle-weather
     container_name: weather
     environment: 
-      - FRONTEND_HOST=frontend
-      - WORLD_HOST=world
-      - SLEEP_TIME=1000
+      - NEW_RELIC_LICENSE_KEY=
+
   
   loadgen:
     image: gitops-doodle-loadgen
-    container_name: loadgen
     environment: 
       - FRONTEND_HOST=frontend
       - WORLD_HOST=world
-      - SLEEP_TIME=5000
+      - SLEEP_TIME=16000
       - PYTHONUNBUFFERED=1
