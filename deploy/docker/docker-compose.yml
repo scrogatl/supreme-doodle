@@ -51,7 +51,7 @@ services:
 
 
   weather:
-    image: ghcr.io/scrogatl/gitops-doodle-weather
+    image: ghcr.io/scrogatl/doodle-weather
     container_name: weather
     environment: 
       - NEW_RELIC_LICENSE_KEY=
