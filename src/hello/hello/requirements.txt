@@ -1,5 +1,0 @@
-flask
-opentelemetry-distro==0.40b0
-opentelemetry-instrumentation
-opentelemetry-exporter-otlp
-opentelemetry-exporter-otlp-proto-grpc==1.19.0
