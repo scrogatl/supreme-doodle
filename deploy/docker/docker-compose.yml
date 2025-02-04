@@ -44,7 +44,7 @@ services:
       - WPORT_RUBY=5003
       - SHARD=blue
       - PYTHONUNBUFFERED=1
-      - WHICH_WORLD=99
+      - RUBY_WORLD=50
       # - OTEL_EXPORTER_OTLP_HEADERS=api-key=
       - NEW_RELIC_LICENSE_KEY=
 
