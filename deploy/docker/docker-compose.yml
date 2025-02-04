@@ -7,8 +7,8 @@ services:
 
   world:
     image: ghcr.io/scrogatl/doodle-world
-    ports: 
-      - 5002:5002
+    # ports: 
+    #   - 5002:5002
     container_name: world
     environment: 
       - SHARD=docker-local
@@ -16,7 +16,7 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net
       - OTEL_EXPORTER_OTLP_HEADERS=api-key=
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf 
-      - NEW_RELIC_LICENSE_KEY=
+      - NEW_RELIC_LICENSE_KEY=0d31f45201825bacd4e1f14e2928402dFFFFNRAL
     # command: opentelemetry-instrument --logs_exporter otlp flask run --debugger --host=0.0.0.0 -p 5002
     # command: newrelic-admin run-program flask run --host=0.0.0.0 -p 5002
 
@@ -29,7 +29,7 @@ services:
       - PYTHONUNBUFFERED=1
       - ERROR_THRESH=10 
       - WEATHER_THRESH=75
-      - OTEL_EXPORTER_OTLP_HEADERS=api-key=
+      - OTEL_EXPORTER_OTLP_HEADERS=api-key=0d31f45201825bacd4e1f14e2928402dFFFFNRAL
 
           
 
@@ -46,7 +46,7 @@ services:
       - PYTHONUNBUFFERED=1
       - RUBY_WORLD=50
       # - OTEL_EXPORTER_OTLP_HEADERS=api-key=
-      - NEW_RELIC_LICENSE_KEY=
+      - NEW_RELIC_LICENSE_KEY=0d31f45201825bacd4e1f14e2928402dFFFFNRAL
 
 
 
@@ -54,7 +54,7 @@ services:
     image: ghcr.io/scrogatl/doodle-weather
     container_name: weather
     environment: 
-      - NEW_RELIC_LICENSE_KEY=
+      - NEW_RELIC_LICENSE_KEY=0d31f45201825bacd4e1f14e2928402dFFFFNRAL
 
   
   loadgen:
