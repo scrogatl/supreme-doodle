@@ -1,4 +1,4 @@
-# Automate Kubernetes Platform Operations ]
+# Automate Kubernetes Platform Operations 
 
 ## This repository is not officially verified, tested or supported. ##
 
