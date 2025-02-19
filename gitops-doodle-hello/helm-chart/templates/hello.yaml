@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: helloworld
+    service: hello
+    version: blue
+    shard: blue
+  name: hello
+  namespace: supreme-doodle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: helloworld
+      service: hello
+      version: blue
+      shard: blue
+  template:
+    metadata:
+      labels:
+        application: helloworld
+        service: hello
+        version: blue
+        shard: blue
+    spec:
+      containers:
+      - name: hello
+        # image: public.ecr.aws/z4m0n1r4/hello
+        image: ghcr.io/scrogatl/doodle-hello:latest
+        imagePullPolicy: Always
+        env:
+        - name: SHARD
+          value: "blue"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: NEW_RELIC_LICENSE_KEY
+          value:  "{{ .Values.nr_key }}"
+        - name: DOODLE-VERSION
+          value: "V0.99.4"
+        - name: ERROR_THRESH
+          value: "1"
+        - name: WEATHER_HOST
+          value: "weather"
+        - name: WEATHER_THRESH
+          value: "50"
+        ports:
+        - containerPort: 5001
+          name: application
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+  namespace: supreme-doodle
+spec: 
+  selector:
+    application: helloworld
+    service: hello  
+  type: ClusterIP
+  ports:
+  - name: http
+    # protocol: TCP
+    appProtocol: http
+    port: 5001

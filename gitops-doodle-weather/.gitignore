@@ -1,0 +1,9 @@
+gke*
+venv*
+__pycache__
+.DS_STORE
+*.BAK
+bin/
+obj/
+.fuse*
+ecs-task*
