@@ -1,12 +1,12 @@
 services:
   world-ruby:
-    image: ghcr.io/scrogatl/doodle-world-ruby
+    image: gitops-doodle-world-ruby
     container_name: world-ruby
     environment: 
       - SHARD=blue
 
   world:
-    image: ghcr.io/scrogatl/doodle-world
+    image: gitops-doodle-world
     # ports: 
     #   - 5002:5002
     container_name: world
@@ -16,25 +16,25 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net
       - OTEL_EXPORTER_OTLP_HEADERS=api-key=
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf 
-      - NEW_RELIC_LICENSE_KEY=
+      - NEW_RELIC_LICENSE_KEY=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
     # command: opentelemetry-instrument --logs_exporter otlp flask run --debugger --host=0.0.0.0 -p 5002
     # command: newrelic-admin run-program flask run --host=0.0.0.0 -p 5002
 
   hello:
-    image: ghcr.io/scrogatl/doodle-hello
+    image: gitops-doodle-hello
     container_name: hello
     environment: 
       - SHARD=blue
       - WEATHER_HOST=weather
       - PYTHONUNBUFFERED=1
-      - ERROR_THRESH=10 
-      - WEATHER_THRESH=75
-      - OTEL_EXPORTER_OTLP_HEADERS=api-key=
+      - ERROR_THRESH=1
+      - WEATHER_THRESH=1
+      - OTEL_EXPORTER_OTLP_HEADERS=api-key=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
 
           
 
   frontend:
-    image: ghcr.io/scrogatl/doodle-frontend
+    image: gitops-doodle-frontend
     container_name: frontend  
     environment: 
       - HELLO_HOST=hello
@@ -46,19 +46,19 @@ services:
       - PYTHONUNBUFFERED=1
       - RUBY_WORLD=50
       # - OTEL_EXPORTER_OTLP_HEADERS=api-key=
-      - NEW_RELIC_LICENSE_KEY=
+      - NEW_RELIC_LICENSE_KEY=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
 
 
 
   weather:
-    image: ghcr.io/scrogatl/doodle-weather
+    image: gitops-doodle-weather
     container_name: weather
     environment: 
-      - NEW_RELIC_LICENSE_KEY=
+      - NEW_RELIC_LICENSE_KEY=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
 
   
   loadgen:
-    image: ghcr.io/scrogatl/doodle-loadgen
+    image: gitops-doodle-loadgen
     environment: 
       - FRONTEND_HOST=frontend
       - WORLD_HOST=world
