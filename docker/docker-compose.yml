@@ -16,7 +16,7 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net
       - OTEL_EXPORTER_OTLP_HEADERS=api-key=
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf 
-      - NEW_RELIC_LICENSE_KEY=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
+      - NEW_RELIC_LICENSE_KEY=[YOUR API KEY HERE]
     # command: opentelemetry-instrument --logs_exporter otlp flask run --debugger --host=0.0.0.0 -p 5002
     # command: newrelic-admin run-program flask run --host=0.0.0.0 -p 5002
 
@@ -29,20 +29,11 @@ services:
       - PYTHONUNBUFFERED=1
       - ERROR_THRESH=1
       - WEATHER_THRESH=1
-<<<<<<< HEAD
-<<<<<<< HEAD
-      - OTEL_EXPORTER_OTLP_HEADERS=api-key=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
-=======
-      - NEW_RELIC_LICENSE_KEY=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
-      # - OTEL_EXPORTER_OTLP_HEADERS=api-key=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
->>>>>>> f3f3808 (reorganized)
-=======
-      - NEW_RELIC_LICENSE_KEY=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
-      # - OTEL_EXPORTER_OTLP_HEADERS=api-key=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
->>>>>>> f3f3808 (reorganized)
-
-          
-
+      - OTEL_EXPORTER_OTLP_HEADERS=api-key=[YOUR API KEY HERE]
+      - NEW_RELIC_LICENSE_KEY=[YOUR API KEY HERE]
+      # - OTEL_EXPORTER_OTLP_HEADERS=api-key=[YOUR API KEY HERE]
+      - NEW_RELIC_LICENSE_KEY=[YOUR API KEY HERE]
+      # - OTEL_EXPORTER_OTLP_HEADERS=api-key=[YOUR API KEY HERE]
   frontend:
     image: gitops-doodle-frontend
     container_name: frontend  
@@ -56,7 +47,7 @@ services:
       - PYTHONUNBUFFERED=1
       - RUBY_WORLD=50
       # - OTEL_EXPORTER_OTLP_HEADERS=api-key=
-      - NEW_RELIC_LICENSE_KEY=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
+      - NEW_RELIC_LICENSE_KEY=[YOUR API KEY HERE]
 
 
 
@@ -64,7 +55,7 @@ services:
     image: gitops-doodle-weather
     container_name: weather
     environment: 
-      - NEW_RELIC_LICENSE_KEY=0f6545197d2d0909c2041567b238f3d4FFFFNRAL
+      - NEW_RELIC_LICENSE_KEY=[YOUR API KEY HERE]
 
   
   loadgen:
