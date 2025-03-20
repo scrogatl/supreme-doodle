@@ -29,7 +29,7 @@ spec:
         image: ghcr.io/scrogatl/doodle-loadgen:latest
         imagePullPolicy: Always
         env:
-        - name: FRONTEND_HOST
+        - name: F_HOST
           value: "frontend"
           # value: "frontend.doodle.internal"
         - name: SLEEP_TIME

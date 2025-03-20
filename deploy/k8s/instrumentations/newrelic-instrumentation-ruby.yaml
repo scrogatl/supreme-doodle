@@ -1,0 +1,15 @@
+apiVersion: newrelic.com/v1beta1
+kind: Instrumentation
+metadata:
+  name: newrelic-instrumentation-ruby
+  namespace: newrelic
+spec:
+  agent:
+    language: ruby
+    image: newrelic/newrelic-ruby-init:latest
+    env:
+  podLabelSelector:
+    matchExpressions:
+      - key: "app.kubernetes.io/name"
+        operator: "In"
+        values: ["world-ruby"]
