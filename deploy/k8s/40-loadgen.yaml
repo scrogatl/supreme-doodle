@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: helloworld
+    service: doodle-loadgen
+    shard: blue
+    version: doodle-loadgen
+  name: doodle-loadgen
+  namespace: supreme-doodle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: helloworld
+      service: doodle-loadgen
+      shard: blue
+  template:
+    metadata:
+      labels:
+        application: helloworld
+        service: doodle-loadgen
+        shard: blue
+    spec:
+      containers:
+      - name: loadgen
+        # image: public.ecr.aws/z4m0n1r4/sd-loadgen
+        # image: scottandrewrogers/doodle-loadgen:latest
+        image: ghcr.io/scrogatl/doodle-loadgen:latest
+        imagePullPolicy: Always
+        env:
+        - name: FRONTEND_HOST
+          value: "frontend"
+          # value: "frontend.doodle.internal"
+        - name: SLEEP_TIME
+          value: "16500"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: ENVRIONMENT
+          value: "aks-edge"
+        - name: DOODLE-VERSION
+          value: "V0.99.1"
+      # imagePullSecrets:
+      # - name: ghcr-login-secret
