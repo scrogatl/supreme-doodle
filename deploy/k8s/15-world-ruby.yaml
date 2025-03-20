@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: helloworld
+    service: world-ruby
+    version: blue
+    shard: blue
+  name: world-ruby
+  namespace: supreme-doodle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: helloworld
+      service: world-ruby
+      version: blue
+      shard: blue
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: world-ruby
+        ruby:
+        application: helloworld
+        service: world-ruby
+        version: blue
+        shard: blue
+    spec:
+      containers:
+      - name: world-ruby
+        # image: public.ecr.aws/z4m0n1r4/world
+        image: ghcr.io/scrogatl/doodle-world-ruby:latest
+        imagePullPolicy: Always
+        command: ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "5003"]
+        env:
+        - name: SHARD
+          value: "blue"
+        # - name: PYTHONUNBUFFERED
+        #   value: "1"
+        - name: NEW_RELIC_LICENSE_KEY
+          value:  "{{ .Values.nr_key }}"
+        ports:
+        - containerPort: 5003
+          name: application
+          protocol: TCP
+      # imagePullSecrets:
+      # - name: ghcr-login-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: world-ruby
+  namespace: supreme-doodle
+spec: 
+  selector:
+    application: helloworld
+    service: world-ruby
+  type: ClusterIP
+  ports:
+  - name: http
+    # protocol: TCP
+    appProtocol: http
+    port: 5003
