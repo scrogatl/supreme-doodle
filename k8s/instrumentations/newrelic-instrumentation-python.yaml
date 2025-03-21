@@ -8,6 +8,12 @@ spec:
     language: python
     image: newrelic/newrelic-python-init:latest
     env:
+      - name: NEW_RELIC_APP_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['app.kubernetes.io/name']
+  podLabelSelector:
+
   podLabelSelector:
     matchExpressions:
       - key: app.kubernetes.io/name
