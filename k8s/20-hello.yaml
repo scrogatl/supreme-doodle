@@ -2,27 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    application: helloworld
-    service: hello
-    version: blue
-    shard: blue
+    app.kubernetes.io/name: hello
+    app.kubernetes.io/instance: hello-xyzz
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
   name: hello
   namespace: supreme-doodle
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application: helloworld
-      service: hello
-      version: blue
-      shard: blue
+      app.kubernetes.io/name: hello
+      app.kubernetes.io/instance: hello-xyzz
+      app.kubernetes.io/version: "0.9.1"
+      app.kubernetes.io/component: service
+      app.kubernetes.io/part-of: helloworld
+      app.kubernetes.io/managed-by: kubectl
   template:
     metadata:
       labels:
-        application: helloworld
-        service: hello
-        version: blue
-        shard: blue
+        app.kubernetes.io/name: hello
+        app.kubernetes.io/instance: hello-xyzz
+        app.kubernetes.io/version: "0.9.1"
+        app.kubernetes.io/component: service
+        app.kubernetes.io/part-of: helloworld
+        app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
       - name: hello
@@ -35,7 +41,7 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: NEW_RELIC_LICENSE_KEY
-          value:  "{{ .Values.nr_key }}"
+          value:  "$NEW_RELIC_LICENSE_KEY"
         - name: DOODLE-VERSION
           value: "V0.99.4"
         - name: ERROR_THRESH
@@ -54,10 +60,21 @@ kind: Service
 metadata:
   name: hello
   namespace: supreme-doodle
+  labels:
+    app.kubernetes.io/name: hello
+    app.kubernetes.io/instance: hello-xyzz
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
 spec: 
   selector:
-    application: helloworld
-    service: hello  
+    app.kubernetes.io/name: hello
+    app.kubernetes.io/instance: hello-xyzz
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
   type: ClusterIP
   ports:
   - name: http
