@@ -34,7 +34,7 @@ spec:
       - name: frontend
         image: ghcr.io/scrogatl/doodle-frontend:latest
         imagePullPolicy: Always
-        command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5000"]
+        # command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5000"]
         env:
         - name: HELLO_HOST
           value: "hello"
@@ -52,10 +52,10 @@ spec:
           value: "1"
         - name: RUBY_WORLD
           value: "75"
-        - name: NEW_RELIC_APP_NAME
-          value: "doodle-frontend"
-        - name: NEW_RELIC_LICENSE_KEY
-          value: $NEW_RELIC_LICENSE_KEY
+        # - name: NEW_RELIC_APP_NAME
+        #   value: "doodle-frontend"
+        # - name: NEW_RELIC_LICENSE_KEY
+        #   value: $NEW_RELIC_LICENSE_KEY
         
 
         ports:
