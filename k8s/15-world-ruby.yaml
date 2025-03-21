@@ -29,7 +29,8 @@ spec:
       containers:
       - name: world-ruby
         # image: public.ecr.aws/z4m0n1r4/world
-        image: ghcr.io/scrogatl/doodle-world-ruby:latest
+        #image: ghcr.io/scrogatl/doodle-world-ruby:latest
+        image: localhost:32000/gitops-doodle-world-ruby:registry
         imagePullPolicy: Always
         command: ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "5003"]
         env:

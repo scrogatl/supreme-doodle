@@ -1,38 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/name: frontend
-    application: helloworld
-    service: frontend
-    version: blue
-    shard: blue
-    doodle-version: v0.99.01
   name: frontend
   namespace: supreme-doodle
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: frontend-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application: helloworld
-      service: frontend
-      version: blue
-      shard: blue
+      app.kubernetes.io/name: frontend
+      app.kubernetes.io/instance: frontend-instance
+      app.kubernetes.io/version: "0.9.1"
+      app.kubernetes.io/component: service
+      app.kubernetes.io/part-of: helloworld
+      app.kubernetes.io/managed-by: kubectl
   template:
     metadata:
       labels:
         app.kubernetes.io/name: frontend
-        name: frontend
-        application: helloworld
-        service: frontend
-        version: blue
-        shard: blue
+        app.kubernetes.io/instance: frontend-instance
+        app.kubernetes.io/version: "0.9.1"
+        app.kubernetes.io/component: service
+        app.kubernetes.io/part-of: helloworld
+        app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
       - name: frontend
         # image: public.ecr.aws/z4m0n1r4/frontend
-        image: ghcr.io/scrogatl/doodle-frontend:latest
+        # image: ghcr.io/scrogatl/doodle-frontend:latest
+        image: localhost:32000/gitops-doodle-frontend:registry
         imagePullPolicy: Always
+        command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5000"]
         env:
         - name: HELLO_HOST
           value: "hello"
@@ -53,8 +57,12 @@ spec:
           value: "V0.99.4"
         - name: RUBY_WORLD
           value: "75"
+        - name: NEW_RELIC_APP_NAME
+          value: "doodle-frontend"
         - name: NEW_RELIC_LICENSE_KEY
-          value:  "{{ .Values.nr_key }}"
+          value:  $NEW_RELIC_LICENSE_KEY
+        
+
         ports:
         - containerPort: 5000
           name: application

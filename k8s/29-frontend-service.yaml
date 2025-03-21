@@ -3,10 +3,22 @@ kind: Service
 metadata:
   name: frontend
   namespace: supreme-doodle
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: frontend-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
+
 spec: 
   selector:
-    application: helloworld
-    service: frontend  
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: frontend-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
   type: ClusterIP
   ports:
   - name: http
