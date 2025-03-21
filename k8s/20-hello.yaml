@@ -32,18 +32,18 @@ spec:
     spec:
       containers:
       - name: hello
-        # image: public.ecr.aws/z4m0n1r4/hello
         image: ghcr.io/scrogatl/doodle-hello:latest
         imagePullPolicy: Always
+        command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5001"]
         env:
         - name: SHARD
           value: "blue"
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: NEW_RELIC_LICENSE_KEY
-          value:  "$NEW_RELIC_LICENSE_KEY"
-        - name: DOODLE-VERSION
-          value: "V0.99.4"
+          value:  $NEW_RELIC_LICENSE_KEY
+        - name: NEW_RELIC_APP_NAME
+          value: "doodle-hello"
         - name: ERROR_THRESH
           value: "1"
         - name: WEATHER_HOST
