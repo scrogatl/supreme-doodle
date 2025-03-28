@@ -13,12 +13,10 @@ spec:
           fieldRef:
             fieldPath: metadata.labels['app.kubernetes.io/name']
   podLabelSelector:
-
-  podLabelSelector:
     matchExpressions:
       - key: app.kubernetes.io/name
         operator: "In"
-        values: ["frontend"]
+        values: ["frontend", "hello", "world"]
   namespaceLabelSelector:
     matchExpressions:
       - key: "kubernetes.io/metadata.name"

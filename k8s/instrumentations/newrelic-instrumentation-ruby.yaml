@@ -8,8 +8,12 @@ spec:
     language: ruby
     image: newrelic/newrelic-ruby-init:latest
     env:
+      - name: NEW_RELIC_APP_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['app.kubernetes.io/name']
   podLabelSelector:
     matchExpressions:
-      - key: "app.kubernetes.io/name"
+      - key: app.kubernetes.io/name
         operator: "In"
         values: ["world-ruby"]

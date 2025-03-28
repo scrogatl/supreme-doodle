@@ -47,9 +47,12 @@ spec:
         - name: ERROR_THRESH
           value: "1"
         - name: WEATHER_HOST
+          # value: "doodle-weather-a2defyhqa9eehycs.eastus2-01.azurewebsites.net"
           value: "weather"
+        - name: W_PORT
+          value: "5100"
         - name: WEATHER_THRESH
-          value: "50"
+          value: "90"
         ports:
         - containerPort: 5001
           name: application

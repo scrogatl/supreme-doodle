@@ -51,7 +51,7 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: RUBY_WORLD
-          value: "50"
+          value: "5"
         # - name: NEW_RELIC_APP_NAME
         #   value: "doodle-frontend"
         # - name: NEW_RELIC_LICENSE_KEY

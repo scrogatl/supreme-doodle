@@ -26,7 +26,6 @@ spec:
     spec:
       containers:
       - name: weather
-        # image: public.ecr.aws/z4m0n1r4/world
         image: ghcr.io/scrogatl/doodle-weather:latest
         imagePullPolicy: Always
         env:
