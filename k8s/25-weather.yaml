@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     application: helloworld
-    service: weather
+    service: doodle-weather
     version: blue
     shard: blue
   name: weather
@@ -13,14 +13,14 @@ spec:
   selector:
     matchLabels:
       application: helloworld
-      service: weather
+      service: doodle-weather
       version: blue
       shard: blue
   template:
     metadata:
       labels:
         application: helloworld
-        service: weather
+        service: doodle-weather
         version: blue
         shard: blue
     spec:
@@ -43,12 +43,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: weather
+  name: doodle-weather
   namespace: supreme-doodle
 spec: 
   selector:
     application: helloworld
-    service: weather
+    service: doodle-weather
   type: ClusterIP
   ports:
   - name: http

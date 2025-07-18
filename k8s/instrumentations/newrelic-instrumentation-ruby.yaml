@@ -1,4 +1,4 @@
-apiVersion: newrelic.com/v1beta1
+apiVersion: newrelic.com/v1alpha2
 kind: Instrumentation
 metadata:
   name: newrelic-instrumentation-ruby
@@ -16,4 +16,4 @@ spec:
     matchExpressions:
       - key: app.kubernetes.io/name
         operator: "In"
-        values: ["world-ruby"]
+        values: ["doodle-world-ruby"]

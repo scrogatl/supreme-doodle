@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: world-ruby
+    app.kubernetes.io/name: doodle-world-ruby
     app.kubernetes.io/instance: world-ruby-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
     app.kubernetes.io/part-of: helloworld
     app.kubernetes.io/managed-by: kubectl
-  name: world-ruby
+  name: doodle-world-ruby
   namespace: supreme-doodle
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: world-ruby
+      app.kubernetes.io/name: doodle-world-ruby
       app.kubernetes.io/instance: world-ruby-xyzz
       app.kubernetes.io/version: "0.9.1"
       app.kubernetes.io/component: service
@@ -24,7 +24,7 @@ spec:
     metadata:
       labels:
         ruby:
-        app.kubernetes.io/name: world-ruby
+        app.kubernetes.io/name: doodle-world-ruby
         app.kubernetes.io/instance: world-ruby-xyzz
         app.kubernetes.io/version: "0.9.1"
         app.kubernetes.io/component: service
@@ -32,7 +32,7 @@ spec:
         app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
-      - name: world-ruby
+      - name: doodle-world-ruby
         image: ghcr.io/scrogatl/doodle-world-ruby:latest
         imagePullPolicy: Always
         command: ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "5003"]
@@ -47,10 +47,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: world-ruby
+  name: doodle-world-ruby
   namespace: supreme-doodle
   labels:
-    app.kubernetes.io/name: world-ruby
+    app.kubernetes.io/name: doodle-world-ruby
     app.kubernetes.io/instance: world-ruby-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
@@ -59,7 +59,7 @@ metadata:
 
 spec: 
   selector:
-    app.kubernetes.io/name: world-ruby
+    app.kubernetes.io/name: doodle-world-ruby
     app.kubernetes.io/instance: world-ruby-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service

@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: hello
+    app.kubernetes.io/name: doodle-hello
     app.kubernetes.io/instance: hello-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
     app.kubernetes.io/part-of: helloworld
     app.kubernetes.io/managed-by: kubectl
-  name: hello
+  name: doodle-hello
   namespace: supreme-doodle
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: hello
+      app.kubernetes.io/name: doodle-hello
       app.kubernetes.io/instance: hello-xyzz
       app.kubernetes.io/version: "0.9.1"
       app.kubernetes.io/component: service
@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: hello
+        app.kubernetes.io/name: doodle-hello
         app.kubernetes.io/instance: hello-xyzz
         app.kubernetes.io/version: "0.9.1"
         app.kubernetes.io/component: service
@@ -31,7 +31,7 @@ spec:
         app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
-      - name: hello
+      - name: doodle-hello
         image: ghcr.io/scrogatl/doodle-hello:latest
         imagePullPolicy: Always
         # command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5001"]
@@ -45,14 +45,15 @@ spec:
         # - name: NEW_RELIC_APP_NAME
         #   value: "doodle-hello"
         - name: ERROR_THRESH
-          value: "1"
+          value: "20"
         - name: WEATHER_HOST
           # value: "doodle-weather-a2defyhqa9eehycs.eastus2-01.azurewebsites.net"
-          value: "weather"
+          value: "doodle-weather"
+          #value: "192.168.1.102"
         - name: W_PORT
           value: "5100"
         - name: WEATHER_THRESH
-          value: "90"
+          value: "55"
         ports:
         - containerPort: 5001
           name: application
@@ -61,10 +62,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello
+  name: doodle-hello
   namespace: supreme-doodle
   labels:
-    app.kubernetes.io/name: hello
+    app.kubernetes.io/name: doodle-hello
     app.kubernetes.io/instance: hello-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
@@ -72,7 +73,7 @@ metadata:
     app.kubernetes.io/managed-by: kubectl
 spec: 
   selector:
-    app.kubernetes.io/name: hello
+    app.kubernetes.io/name: doodle-hello
     app.kubernetes.io/instance: hello-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service

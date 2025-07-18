@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: doodle-frontend
   namespace: supreme-doodle
   labels:
-    app.kubernetes.io/name: frontend
+    app.kubernetes.io/name: doodle-frontend
     app.kubernetes.io/instance: frontend-instance
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
@@ -14,7 +14,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: frontend
+      app.kubernetes.io/name: doodle-frontend
       app.kubernetes.io/instance: frontend-instance
       app.kubernetes.io/version: "0.9.1"
       app.kubernetes.io/component: service
@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: frontend
+        app.kubernetes.io/name: doodle-frontend
         app.kubernetes.io/instance: frontend-instance
         app.kubernetes.io/version: "0.9.1"
         app.kubernetes.io/component: service
@@ -31,17 +31,17 @@ spec:
         app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
-      - name: frontend
+      - name: doodle-frontend
         image: ghcr.io/scrogatl/doodle-frontend:latest
         imagePullPolicy: Always
         # command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5000"]
         env:
         - name: HELLO_HOST
-          value: "hello"
+          value: "doodle-hello"
         - name: WORLD_HOST
-          value: "world"
+          value: "doodle-world"
         - name: WORLD_HOST_RUBY
-          value: "world-ruby"
+          value: "doodle-world-ruby"
         - name: WPORT
           value: "5002"
         - name: WPORT_RUBY

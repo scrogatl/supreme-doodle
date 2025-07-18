@@ -1,36 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    application: helloworld
-    service: doodle-loadgen
-    shard: blue
-    version: doodle-loadgen
   name: doodle-loadgen
   namespace: supreme-doodle
+  labels:
+    app.kubernetes.io/name: doodle-loadgen
+    app.kubernetes.io/instance: loadgen-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application: helloworld
-      service: doodle-loadgen
-      shard: blue
+      app.kubernetes.io/name: doodle-loadgen
+      app.kubernetes.io/instance: loadgen-instance
+      app.kubernetes.io/version: "0.9.1"
+      app.kubernetes.io/component: service
+      app.kubernetes.io/part-of: helloworld
+      app.kubernetes.io/managed-by: kubectl
   template:
     metadata:
       labels:
-        application: helloworld
-        service: doodle-loadgen
-        shard: blue
+        app.kubernetes.io/name: doodle-loadgen
+        app.kubernetes.io/instance: loadgen-instance
+        app.kubernetes.io/version: "0.9.1"
+        app.kubernetes.io/component: service
+        app.kubernetes.io/part-of: helloworld
+        app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
-      - name: loadgen
+      - name: doodle-loadgen
         # image: public.ecr.aws/z4m0n1r4/sd-loadgen
         # image: scottandrewrogers/doodle-loadgen:latest
         image: ghcr.io/scrogatl/doodle-loadgen:latest
         imagePullPolicy: Always
         env:
         - name: F_HOST
-          value: "frontend"
+          value: "doodle-frontend"
           # value: "frontend.doodle.internal"
         - name: SLEEP_TIME
           value: "8500"

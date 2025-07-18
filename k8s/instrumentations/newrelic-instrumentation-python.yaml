@@ -1,4 +1,4 @@
-apiVersion: newrelic.com/v1beta1
+apiVersion: newrelic.com/v1alpha2
 kind: Instrumentation
 metadata:
   name: newrelic-instrumentation-python
@@ -14,9 +14,9 @@ spec:
             fieldPath: metadata.labels['app.kubernetes.io/name']
   podLabelSelector:
     matchExpressions:
-      - key: app.kubernetes.io/name
+      - key: "app.kubernetes.io/name"
         operator: "In"
-        values: ["frontend", "hello", "world"]
+        values: ["doodle-frontend", "doodle-hello", "doodle-world"]
   namespaceLabelSelector:
     matchExpressions:
       - key: "kubernetes.io/metadata.name"
