@@ -36,7 +36,7 @@ Adds suffix to deployment/app names
 
 ```
 cd k8s
-kustomize build kustomizations/3040 | kubectl apply -f -
+kubectl kustomize kustomizations/3040 | kubectl apply -f -
 kubectl apply -f services/
 
 ```
