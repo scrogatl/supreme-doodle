@@ -27,7 +27,18 @@ docker compose up -d
 ### Deploy on K8S
 ```
 cd k8s
-kubectl apply -f .
+kubectl apply -f deployments/
+kubectl apply -f services/
+
+```
+### Deploy on K8S with kustomize
+Adds suffix to deployment/app names 
+
+```
+cd k8s
+kustomize build kustomizations/3040 | kubectl apply -f -
+kubectl apply -f services/
+
 ```
 
 #### The source for these are in the ```gitops-doodle-``` repos: 
