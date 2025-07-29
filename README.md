@@ -28,7 +28,6 @@ docker compose up -d
 ```
 cd k8s
 kubectl apply -f deployments/
-kubectl apply -f services/
 
 ```
 
