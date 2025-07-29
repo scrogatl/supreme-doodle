@@ -28,6 +28,17 @@ docker compose up -d
 ```
 cd k8s
 kubectl apply -f deployments/
+kubectl apply -f services/
+
+```
+
+### Change the label: "app.kubernetes.io/name:"
+
+
+Changes/appends '3040' to the label:
+
+```
+for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k rollout restart  -f -; done
 
 ```
 
