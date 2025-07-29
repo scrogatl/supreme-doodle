@@ -12,11 +12,11 @@ spec:
         valueFrom:
           fieldRef:
             fieldPath: metadata.labels['app.kubernetes.io/name']
-  podLabelSelector:
-    matchExpressions:
-      - key: "app.kubernetes.io/name"
-        operator: "In"
-        values: ["doodle-frontend", "doodle-hello", "doodle-world"]
+#  podLabelSelector:
+#    matchExpressions:
+#      - key: "app.kubernetes.io/name"
+#        operator: "In"
+#        values: ["doodle-frontend", "doodle-hello", "doodle-world"]
   namespaceLabelSelector:
     matchExpressions:
       - key: "kubernetes.io/metadata.name"
