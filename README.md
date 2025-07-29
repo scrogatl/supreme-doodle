@@ -38,7 +38,7 @@ kubectl apply -f services/
 Changes/appends '3040' to the label:
 
 ```
-for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k rollout restart  -f -; done
+for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
 
 ```
 
