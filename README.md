@@ -31,13 +31,6 @@ kubectl apply -f deployments/
 kubectl apply -f services/
 
 ```
-### Or K8S with Kustomize ###
-```
-cd k8s/deployments
-kubectl apply -k ../kustomizations/[select a dir]
-kubectl apply -f ../services/
-
-```
 
 
 ### Change the label: "app.kubernetes.io/name:"
