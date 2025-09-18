@@ -1,4 +1,0 @@
-resources:
-- ./../../deployments
-
-nameSuffix: '-5070'
