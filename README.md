@@ -36,10 +36,12 @@ kubectl apply -f services/
 ### Change the label: "app.kubernetes.io/name:"
 
 
-Changes/appends '3040' to the label:
+Changes/appends '3040' to the label (for reporting into New Relic):
 
 ```
 for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
+
+for FILE in services/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
 
 ```
 
