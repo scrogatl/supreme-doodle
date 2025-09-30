@@ -32,7 +32,8 @@ spec:
     spec:
       containers:
       - name: doodle-world
-        image: ghcr.io/scrogatl/doodle-world:latest
+        #image: ghcr.io/scrogatl/doodle-world:latest
+        image: 192.168.1.101:32000/gitops-doodle-world:registry
         imagePullPolicy: Always
         env:
         - name: PYTHONUNBUFFERED

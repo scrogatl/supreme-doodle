@@ -44,6 +44,13 @@ for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\
 for FILE in services/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
 
 ```
+### doodle-world now has Prometheus metrics counter for requests
+
+Must add annotation to have New Relic scrape prometheus metrics like so
+
+``` 
+POD=`k get pods -n supreme-doodle | grep -i world | grep -v  ruby | grep Running | awk '{print $1}' `; k annotate pods $POD -n supreme-doodle   newrelic.io/scrape="true" ```
+```
 
 #### The source for these are in the ```gitops-doodle-``` repos: 
 
