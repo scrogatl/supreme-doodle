@@ -1,7 +1,6 @@
 services:
   world-ruby:
-    build: ./gitops-doodle-world-ruby
-    image: gitops-doodle-world-ruby
+    image: ghcr.io/scrogatl/doodle-world-ruby:latest
     container_name: world-ruby
     environment: 
       - SHARD=docker-local
@@ -9,8 +8,7 @@ services:
 
 
   world:
-    image: gitops-doodle-world
-    build: ./gitops-doodle-world
+    image: ghcr.io/scrogatl/doodle-world:latest
     container_name: world
     environment: 
       - SHARD=docker-local
@@ -23,8 +21,7 @@ services:
     # command: newrelic-admin run-program flask run --host=0.0.0.0 -p 5002
 
   hello:
-    image: gitops-doodle-hello
-    build: ./gitops-doodle-hello
+    image: ghcr.io/scrogatl/doodle-hello:latest
     container_name: hello
     environment: 
       - SHARD=docker-local
@@ -36,8 +33,7 @@ services:
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
   frontend:
-    image: gitops-doodle-frontend
-    build: ./gitops-doodle-frontend
+    image: ghcr.io/scrogatl/doodle-frontend:latest
     container_name: frontend  
     environment: 
       - HELLO_HOST=hello
@@ -51,11 +47,8 @@ services:
       # - OTEL_EXPORTER_OTLP_HEADERS=api-key=
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
-
-
   weather:
-    image: gitops-doodle-weather
-    build: ./gitops-doodle-weather
+    image: ghcr.io/scrogatl/doodle-weather:latest
     container_name: weather
     environment:
       - SHARD=docker-local
@@ -63,8 +56,7 @@ services:
 
   
   loadgen:
-    image: gitops-doodle-loadgen
-    build: ./gitops-doodle-loadgen
+    image: ghcr.io/scrogatl/doodle-loadgen:latest
     environment: 
       - FRONTEND_HOST=frontend
       - WORLD_HOST=world
