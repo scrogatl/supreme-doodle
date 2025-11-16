@@ -58,7 +58,7 @@ services:
   loadgen:
     image: ghcr.io/scrogatl/doodle-loadgen:latest
     environment: 
-      - FRONTEND_HOST=frontend
+      - F_HOST=frontend
       - WORLD_HOST=world
       - SLEEP_TIME=16000
       - PYTHONUNBUFFERED=1
