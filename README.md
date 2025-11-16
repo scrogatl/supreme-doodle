@@ -32,6 +32,15 @@ kubectl apply -f services/
 
 ```
 
+### Deploy on Azure Container apps with New Relic agent
+
+```
+cd azure-container-apps
+export NEW_RELIC_LICENSE_KEY=YOUR NEW RELIC LICENSE KEY
+az group create --name supreme-doodle  --location eastus2 
+az containerapp compose create -g supreme-doodle --environment supreme-doodle 
+```
+
 
 ### Change the label: "app.kubernetes.io/name:"
 
