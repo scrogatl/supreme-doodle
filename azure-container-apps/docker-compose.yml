@@ -1,0 +1,48 @@
+services:
+  frontend:
+    image: ghcr.io/scrogatl/doodle-frontend:newrelic 
+    container_name: frontend  
+    ports:
+      - "5000:5000"
+    environment: 
+      - NEW_RELIC_APP_NAME=doodle-frontend-az-con
+      - HELLO_HOST=hello
+      - WORLD_HOST=world
+      - WPORT=5002
+      - SHARD=az-container-apps
+      - PYTHONUNBUFFERED=1
+      - RUBY_WORLD=1
+      - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+
+  hello:
+    image: ghcr.io/scrogatl/doodle-hello:newrelic
+    container_name: hello
+    expose:
+      - "5001"
+    environment: 
+      - NEW_RELIC_APP_NAME=doodle-hello-az-con
+      - SHARD=az-container-apps
+      - PYTHONUNBUFFERED=1
+      - ERROR_THRESH=1
+      - WEATHER_THRESH=1
+      - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+
+  world:
+    image: ghcr.io/scrogatl/doodle-world:newrelic
+    container_name: world
+    expose:
+      - "5002"
+    environment: 
+      - NEW_RELIC_APP_NAME=doodle-world-az-con
+      - SHARD=az-container-apps
+      - PYTHONUNBUFFERED=1
+      - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+
+  loadgen:
+    image: ghcr.io/scrogatl/doodle-loadgen:latest
+    environment: 
+      - F_HOST=frontend
+      - WORLD_HOST=world
+      - SLEEP_TIME=8000
+      - PYTHONUNBUFFERED=1
+      - SHARD=az-container-apps
