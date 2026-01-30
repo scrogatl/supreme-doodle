@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: doodle-loadgen
-        image: ghcr.io/scrogatl/doodle-loadgen:main
+        image: ghcr.io/scrogatl/doodle-loadgen:latest
         imagePullPolicy: Always
         env:
         - name: F_HOST
