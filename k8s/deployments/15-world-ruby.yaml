@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: doodle-world-ruby
-        image: ghcr.io/scrogatl/doodle-world-ruby:latest
+        image: ghcr.io/scrogatl/doodle-world-ruby:main
         imagePullPolicy: Always
         command: ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "5003"]
         env:

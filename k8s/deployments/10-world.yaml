@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: doodle-world
-        image: ghcr.io/scrogatl/doodle-world:latest
+        image: ghcr.io/scrogatl/doodle-world:main
         imagePullPolicy: Always
         env:
         - name: PYTHONUNBUFFERED

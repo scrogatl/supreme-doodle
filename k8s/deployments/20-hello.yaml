@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: doodle-hello
-        image: ghcr.io/scrogatl/doodle-hello:latest
+        image: ghcr.io/scrogatl/doodle-hello:main
         imagePullPolicy: Always
         # command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5001"]
         env:
@@ -45,7 +45,7 @@ spec:
         # - name: NEW_RELIC_APP_NAME
         #   value: "doodle-hello"
         - name: ERROR_THRESH
-          value: "20"
+          value: "10"
         - name: WEATHER_HOST
           # value: "doodle-weather-a2defyhqa9eehycs.eastus2-01.azurewebsites.net"
           value: "doodle-weather"
@@ -53,7 +53,7 @@ spec:
         - name: W_PORT
           value: "5100"
         - name: WEATHER_THRESH
-          value: "55"
+          value: "25"
         ports:
         - containerPort: 5001
           name: application
