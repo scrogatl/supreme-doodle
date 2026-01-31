@@ -1,6 +1,6 @@
 services:
   world-ruby:
-    image: ghcr.io/scrogatl/doodle-world-ruby:latest
+    image: ghcr.io/scrogatl/doodle-world-ruby:main
     container_name: world-ruby
     environment: 
       - SHARD=docker-local
@@ -8,7 +8,7 @@ services:
 
 
   world:
-    image: ghcr.io/scrogatl/doodle-world:latest
+    image: ghcr.io/scrogatl/doodle-world:main
     container_name: world
     environment: 
       - SHARD=docker-local
@@ -21,7 +21,7 @@ services:
     # command: newrelic-admin run-program flask run --host=0.0.0.0 -p 5002
 
   hello:
-    image: ghcr.io/scrogatl/doodle-hello:latest
+    image: ghcr.io/scrogatl/doodle-hello:main
     container_name: hello
     environment: 
       - SHARD=docker-local
@@ -33,7 +33,7 @@ services:
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
   frontend:
-    image: ghcr.io/scrogatl/doodle-frontend:latest
+    image: ghcr.io/scrogatl/doodle-frontend:main
     container_name: frontend  
     environment: 
       - HELLO_HOST=hello
@@ -48,7 +48,7 @@ services:
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
   weather:
-    image: ghcr.io/scrogatl/doodle-weather:latest
+    image: ghcr.io/scrogatl/doodle-weather:main
     container_name: weather
     environment:
       - SHARD=docker-local
