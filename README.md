@@ -53,6 +53,13 @@ for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\
 for FILE in services/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
 
 ```
+### For the otel branch, create a secret with your New Relic ingest key like so:
+
+```
+kubectl create secret generic nr-license-key --from-literal=license-key=12345xyz
+```
+
+
 ### doodle-world now has Prometheus metrics counter for requests
 
 Must add annotation to have New Relic scrape prometheus metrics like so
