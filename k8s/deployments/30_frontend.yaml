@@ -32,9 +32,9 @@ spec:
     spec:
       containers:
       - name: doodle-frontend
-        image: ghcr.io/scrogatl/doodle-frontend:main
+        image: ghcr.io/scrogatl/doodle-frontend:otel
         imagePullPolicy: Always
-        # command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5000"]
+        command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5000"]
         env:
         - name: HELLO_HOST
           value: "doodle-hello"
@@ -51,11 +51,29 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: RUBY_WORLD
-          value: "5"
-        # - name: NEW_RELIC_APP_NAME
-        #   value: "doodle-frontend"
-        # - name: NEW_RELIC_LICENSE_KEY
-        #   value: $NEW_RELIC_LICENSE_KEY
+          value: "50"
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nr-license-key  # The name of your K8s Secret
+              key: license-key      # The key inside the Secret
+        - name: OTEL_SERVICE_NAME
+          value: "frontend-otel"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "https://otlp.nr-data.net"
+        - name: OTEL_EXPORTER_OTLP_HEADERS
+          value: "api-key=$(NEW_RELIC_LICENSE_KEY)"
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: "http/protobuf"
+        - name: OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED
+          value: "true"
+        - name: OTEL_LOGS_EXPORTER
+          value: "otlp"
+        - name: OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT
+          value: "4095"
+        - name: OTEL_EXPORTER_OTLP_COMPRESSION
+          value: "gzip"
+
         ports:
         - containerPort: 5000
           name: application

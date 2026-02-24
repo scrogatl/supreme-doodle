@@ -32,9 +32,31 @@ spec:
     spec:
       containers:
       - name: doodle-world
-        image: ghcr.io/scrogatl/doodle-world:main
+        image: ghcr.io/scrogatl/doodle-world:otel
         imagePullPolicy: Always
+        command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5000"]
         env:
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nr-license-key  # The name of your K8s Secret
+              key: license-key      # The key inside the Secret
+        - name: OTEL_SERVICE_NAME
+          value: "world-otel"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "https://otlp.nr-data.net"
+        - name: OTEL_EXPORTER_OTLP_HEADERS
+          value: "api-key=$(NEW_RELIC_LICENSE_KEY)"
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: "http/protobuf"
+        - name: OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED
+          value: "true"
+        - name: OTEL_LOGS_EXPORTER
+          value: "otlp"
+        - name: OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT
+          value: "4095"
+        - name: OTEL_EXPORTER_OTLP_COMPRESSION
+          value: "gzip"
         - name: PYTHONUNBUFFERED
           value: "1"
         ports:
