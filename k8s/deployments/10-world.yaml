@@ -34,7 +34,7 @@ spec:
       - name: doodle-world
         image: ghcr.io/scrogatl/doodle-world:otel
         imagePullPolicy: Always
-        command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5000"]
+        command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5002"]
         env:
         - name: NEW_RELIC_LICENSE_KEY
           valueFrom:
