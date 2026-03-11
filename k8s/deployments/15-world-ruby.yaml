@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: doodle-world-ruby
+    app.kubernetes.io/name: doodle-world-ruby-otel
     app.kubernetes.io/instance: world-ruby-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
@@ -14,7 +14,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: doodle-world-ruby
+      app.kubernetes.io/name: doodle-world-ruby-otel
       app.kubernetes.io/instance: world-ruby-xyzz
       app.kubernetes.io/version: "0.9.1"
       app.kubernetes.io/component: service
@@ -24,7 +24,7 @@ spec:
     metadata:
       labels:
         ruby:
-        app.kubernetes.io/name: doodle-world-ruby
+        app.kubernetes.io/name: doodle-world-ruby-otel
         app.kubernetes.io/instance: world-ruby-xyzz
         app.kubernetes.io/version: "0.9.1"
         app.kubernetes.io/component: service
@@ -37,6 +37,28 @@ spec:
         imagePullPolicy: Always
         command: ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "5003"]
         env:
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nr-license-key  # The name of your K8s Secret
+              key: license-key      # The key inside the Secret
+        - name: OTEL_SERVICE_NAME
+          value: "world-ruby-otel"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "https://otlp.nr-data.net"
+        - name: OTEL_EXPORTER_OTLP_HEADERS
+          value: "api-key=$(NEW_RELIC_LICENSE_KEY)"
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: "http/protobuf"
+        - name: OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED
+          value: "true"
+        - name: OTEL_LOGS_EXPORTER
+          value: "otlp"
+        - name: OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT
+          value: "4095"
+        - name: OTEL_EXPORTER_OTLP_COMPRESSION
+          value: "gzip"
+
         - name: SHARD
           value: "blue"
         ports:

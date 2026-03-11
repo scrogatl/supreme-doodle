@@ -4,7 +4,7 @@ metadata:
   name: doodle-frontend
   namespace: supreme-doodle
   labels:
-    app.kubernetes.io/name: doodle-frontend
+    app.kubernetes.io/name: doodle-frontend-otel
     app.kubernetes.io/instance: frontend-instance
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
@@ -13,7 +13,7 @@ metadata:
 
 spec: 
   selector:
-    app.kubernetes.io/name: doodle-frontend
+    app.kubernetes.io/name: doodle-frontend-otel
     app.kubernetes.io/instance: frontend-instance
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service

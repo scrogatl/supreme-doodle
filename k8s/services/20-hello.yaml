@@ -4,7 +4,7 @@ metadata:
   name: doodle-hello
   namespace: supreme-doodle
   labels:
-    app.kubernetes.io/name: doodle-hello
+    app.kubernetes.io/name: doodle-hello-otel
     app.kubernetes.io/instance: hello-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/managed-by: kubectl
 spec: 
   selector:
-    app.kubernetes.io/name: doodle-hello
+    app.kubernetes.io/name: doodle-hello-otel
     app.kubernetes.io/instance: hello-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
