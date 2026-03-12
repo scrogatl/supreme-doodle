@@ -1,4 +1,4 @@
-apiVersion: newrelic.com/v1alpha2
+apiVersion: newrelic.com/v1beta2
 kind: Instrumentation
 metadata:
   name: newrelic-instrumentation-python
@@ -12,13 +12,19 @@ spec:
         valueFrom:
           fieldRef:
             fieldPath: metadata.labels['app.kubernetes.io/name']
-#  podLabelSelector:
-#    matchExpressions:
-#      - key: "app.kubernetes.io/name"
-#        operator: "In"
-#        values: ["doodle-frontend", "doodle-hello", "doodle-world"]
-  namespaceLabelSelector:
-    matchExpressions:
-      - key: "kubernetes.io/metadata.name"
-        operator: "In"
-        values: ["supreme-doodle"]
+  # podLabelSelector:
+  #   matchExpressions:
+  #     - key: "app.kubernetes.io/name"
+  #       operator: "In"
+  #       values: ["doodle-frontend", "doodle-hello", "doodle-world"]
+  # namespaceLabelSelector:
+  #   matchExpressions:
+  #     - key: "kubernetes.io/metadata.name"
+  #       operator: "In"
+  #       values: ["supreme-doodle"]
+  containerSelector:
+      imageSelector:
+        matchExpressions:
+          - key: url
+            operator: In
+            values: ["ghcr.io/scrogatl/doodle-frontend:main", "ghcr.io/scrogatl/doodle-hello:main", "ghcr.io/scrogatl/doodle-world:main"]
