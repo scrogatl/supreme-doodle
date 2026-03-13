@@ -27,4 +27,6 @@ spec:
         matchExpressions:
           - key: url
             operator: In
-            values: ["ghcr.io/scrogatl/doodle-frontend:main", "ghcr.io/scrogatl/doodle-hello:main", "ghcr.io/scrogatl/doodle-world:main"]
+            values: ["ghcr.io/scrogatl/doodle-frontend:main",
+             "ghcr.io/scrogatl/doodle-hello:main", 
+             "ghcr.io/scrogatl/doodle-world:main"]
