@@ -59,9 +59,6 @@ spec:
           value: "gzip"
         - name: PYTHONUNBUFFERED
           value: "1"
-        # Highlight: Explicitly setting the OTel service name
-        - name: OTEL_SERVICE_NAME
-          value: "world-service" 
         ports:
         - containerPort: 5002
           name: application

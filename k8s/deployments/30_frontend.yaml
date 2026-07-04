@@ -73,9 +73,7 @@ spec:
           value: "4095"
         - name: OTEL_EXPORTER_OTLP_COMPRESSION
           value: "gzip"
-        # Highlight: Explicitly setting the OTel service name
-        - name: OTEL_SERVICE_NAME
-          value: "world-service" 
+
         ports:
         - containerPort: 5000
           name: application
