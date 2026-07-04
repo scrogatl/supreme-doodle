@@ -52,6 +52,9 @@ spec:
           value: "1"
         - name: RUBY_WORLD
           value: "5"
+        # Highlight: Explicitly setting the OTel service name
+        - name: OTEL_SERVICE_NAME
+          value: "world-service" 
         # - name: NEW_RELIC_APP_NAME
         #   value: "doodle-frontend"
         # - name: NEW_RELIC_LICENSE_KEY

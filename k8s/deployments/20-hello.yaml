@@ -54,6 +54,9 @@ spec:
           value: "5100"
         - name: WEATHER_THRESH
           value: "25"
+        # Highlight: Explicitly setting the OTel service name
+        - name: OTEL_SERVICE_NAME
+          value: "hello-service" 
         ports:
         - containerPort: 5001
           name: application
