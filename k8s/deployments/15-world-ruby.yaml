@@ -61,6 +61,9 @@ spec:
 
         - name: SHARD
           value: "blue"
+        # Highlight: Explicitly setting the OTel service name
+        - name: OTEL_SERVICE_NAME
+          value: "world-ruby-service" 
         ports:
         - containerPort: 5003
           name: application
