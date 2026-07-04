@@ -32,9 +32,9 @@ spec:
     spec:
       containers:
       - name: doodle-hello
-        image: ghcr.io/scrogatl/doodle-hello:otel
+        image: ghcr.io/scrogatl/doodle-hello:fastapi
         imagePullPolicy: Always
-        command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5001"]
+        command: ["opentelemetry-instrument", "fastapi", "run", "app.py", "--port","5001"]
         env:
         - name: NEW_RELIC_LICENSE_KEY
           valueFrom:
@@ -42,7 +42,7 @@ spec:
               name: nr-license-key  # The name of your K8s Secret
               key: license-key      # The key inside the Secret
         - name: OTEL_SERVICE_NAME
-          value: "hello-otel"
+          value: "hello-otel-fastapi"
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
           value: "https://otlp.nr-data.net"
         - name: OTEL_EXPORTER_OTLP_HEADERS
