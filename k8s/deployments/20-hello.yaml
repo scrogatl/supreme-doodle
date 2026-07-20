@@ -36,29 +36,6 @@ spec:
         imagePullPolicy: Always
         command: ["opentelemetry-instrument", "fastapi", "run", "app.py", "--port","5001"]
         env:
-        - name: NEW_RELIC_LICENSE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: nr-license-key  # The name of your K8s Secret
-              key: license-key      # The key inside the Secret
-        - name: OTEL_SERVICE_NAME
-          value: "hello-otel-fastapi"
-        - name: OTEL_EXPORTER_OTLP_ENDPOINT
-          value: "https://otlp.nr-data.net"
-        - name: OTEL_EXPORTER_OTLP_HEADERS
-          value: "api-key=$(NEW_RELIC_LICENSE_KEY)"
-        - name: OTEL_EXPORTER_OTLP_PROTOCOL
-          value: "http/protobuf"
-        - name: OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED
-          value: "true"
-        - name: OTEL_LOGS_EXPORTER
-          value: "otlp"
-        - name: OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT
-          value: "4095"
-        - name: OTEL_EXPORTER_OTLP_COMPRESSION
-          value: "gzip"
-        - name: PYTHONUNBUFFERED
-          value: "1"
         - name: ERROR_THRESH
           value: "10"
         - name: WEATHER_HOST
@@ -67,6 +44,38 @@ spec:
           value: "5100"
         - name: WEATHER_THRESH
           value: "25"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        # 1. Define the Node Name using the Downward API
+        - name: KUBE_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        # 2. Define Pod UID and Name
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        # 3. Add host.name to OTEL_RESOURCE_ATTRIBUTES
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: "k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME)"
+        - name: OTEL_SERVICE_NAME
+          value: "hello-otel-fastapi"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://nr-k8s-otel-collector-gateway.newrelic.svc.cluster.local:4317"
+        - name: OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED
+          value: "true"
+        - name: OTEL_LOGS_EXPORTER
+          value: "otlp"
+        - name: OTEL_TRACES_EXPORTER
+          value: "otlp"
+        - name: OTEL_METRICS_EXPORTER
+          value: "otlp"
+
         ports:
         - containerPort: 5001
           name: application

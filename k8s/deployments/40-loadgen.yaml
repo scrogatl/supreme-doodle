@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/part-of: helloworld
     app.kubernetes.io/managed-by: kubectl
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app.kubernetes.io/name: doodle-loadgen
