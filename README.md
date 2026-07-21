@@ -5,6 +5,9 @@
 This repo is for my testing of kubernetes platforms
 
 
+## The Otel Branch
+This branch has OTEL specific configs for Docker and K8S. I've attempted to make hem generic-ish and not overly New Relic centric.
+
 ### Deploy on K8S with Argo ###
 ```
 argocd app create doodle-loadgen --repo https://github.com/scrogatl/gitops-doodle-loadgen.git --path . --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc 
