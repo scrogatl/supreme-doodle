@@ -27,6 +27,13 @@ cd docker
 docker compose up -d 
 ```
 
+**For local build** 
+
+Place docker-compose.yml in parent directory (above) the source repos and run
+```
+docker compose build 
+```
+
 ### Deploy on K8S
 ```
 cd k8s
