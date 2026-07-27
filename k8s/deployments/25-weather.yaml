@@ -33,8 +33,6 @@ spec:
           value: "blue"
         - name: PYTHONUNBUFFERED
           value: "1"
-        - name: NEW_RELIC_LICENSE_KEY
-          value:  "{{ .Values.nr_key }}"
         ports:
         - containerPort: 5100
           name: application
