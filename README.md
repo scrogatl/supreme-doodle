@@ -6,7 +6,7 @@ This repo is for my testing of kubernetes platforms
 
 
 ## The Otel Branch
-This branch has OTEL specific configs for Docker and K8S. I've attempted to make hem generic-ish and not overly New Relic centric.
+This branch has OTEL specific configs for Docker and K8S. The OTEL configs are generic and only point to New Relic's NRDOT collector. Change the endpoint and this config will work with other OTEL products.
 
 ### Deploy on K8S with Argo ###
 ```
