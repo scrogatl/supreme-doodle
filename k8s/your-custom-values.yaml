@@ -410,7 +410,7 @@ collectorObservability:
 
 # -- (bool) Send only the [metrics required](https://github.com/newrelic/helm-charts/tree/master/charts/nr-k8s-otel-collector/docs/metrics-lowDataMode.md) to light up the NR kubernetes UI
 # @default -- `true`
-lowDataMode: false
+lowDataMode: true
 
 ################################################################################
 # Experimental Features
