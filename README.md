@@ -34,6 +34,13 @@ export NEW_RELIC_LICENSE_KEY=YOUR NEW RELIC LICENSE KEY
 az group create --name supreme-doodle  --location eastus2 
 az containerapp compose create -g supreme-doodle --environment supreme-doodle 
 ```
+### Deploy on Azure Functions ###
+
+Deploys `loadgen`, `frontend`, `hello`, and `world` as Azure Function Apps
+instead of containers. See [azure-functions/README.md](azure-functions/README.md)
+for prerequisites, the deploy script, and a local-testing script that runs
+all four via Azure Functions Core Tools without touching Azure at all.
+
 ### Deploy on K8S with Argo ###
 ```
 argocd app create doodle-loadgen --repo https://github.com/scrogatl/gitops-doodle-loadgen.git --path . --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc 
