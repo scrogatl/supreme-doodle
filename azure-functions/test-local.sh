@@ -40,11 +40,16 @@ setup_and_start() {
   local repo_dir=$1
   local port=$2
   local settings_json=$3
+  local src_app_py=$4  # path to the real app.py, relative to $repo_dir
   local dir="$REPO_ROOT/$repo_dir/azure-functions"
 
   echo "== $repo_dir (port $port) =="
   (
     cd "$dir"
+    # Mirrors deploy.sh: keep the real source in hello/src/app.py etc. as
+    # the source of truth, but the adapter needs its own local copy since
+    # function_app.py imports it as a same-directory sibling module.
+    cp "../$src_app_py" app.py
     if [ ! -d .venv ]; then
       "$PYTHON_BIN" -m venv .venv
     fi
@@ -68,7 +73,7 @@ cmd_start() {
       "WEATHER_THRESH": "25",
       "SHARD": "local-fn-test"
     }
-  }'
+  }' "hello/src/app.py"
 
   setup_and_start "gitops-doodle-world" "$WORLD_PORT" '{
     "IsEncrypted": false,
@@ -77,7 +82,7 @@ cmd_start() {
       "FUNCTIONS_WORKER_RUNTIME": "python",
       "SHARD": "local-fn-test"
     }
-  }'
+  }' "world/src/app.py"
 
   setup_and_start "gitops-doodle-frontend" "$FRONTEND_PORT" "{
     \"IsEncrypted\": false,
@@ -89,7 +94,7 @@ cmd_start() {
       \"HELLO_URL\": \"http://localhost:${HELLO_PORT}\",
       \"WORLD_URL\": \"http://localhost:${WORLD_PORT}\"
     }
-  }"
+  }" "frontend/src/app.py"
 
   setup_and_start "gitops-doodle-loadgen" "$LOADGEN_PORT" "{
     \"IsEncrypted\": false,
@@ -100,7 +105,7 @@ cmd_start() {
       \"F_PORT\": \"${FRONTEND_PORT}\",
       \"LOADGEN_SCHEDULE\": \"*/5 * * * * *\"
     }
-  }"
+  }" "loadgen/app.py"
 
   echo ""
   echo "Starting up, giving the workers ~12s to initialize..."
@@ -147,6 +152,7 @@ cmd_stop() {
   for repo_dir in gitops-doodle-hello gitops-doodle-world gitops-doodle-frontend gitops-doodle-loadgen; do
     rm -rf "$REPO_ROOT/$repo_dir/azure-functions/.venv"
     rm -f "$REPO_ROOT/$repo_dir/azure-functions/local.settings.json"
+    rm -f "$REPO_ROOT/$repo_dir/azure-functions/app.py"
   done
   rm -rf "$RUN_DIR"
 

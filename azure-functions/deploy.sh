@@ -4,7 +4,10 @@
 # Prerequisites:
 #   - az CLI installed and logged in (`az login`)
 #   - Azure Functions Core Tools installed (`func`, v4)
-#   - Python 3.11 available locally (used to build each app's dependencies)
+#   - python3.11 or python3.12 on PATH by that exact name (used to build each
+#     app's dependencies) - matches PYTHON_VERSION below; newer Pythons
+#     (3.13 as of this writing) aren't yet supported by the Functions
+#     Python worker.
 #   - The gitops-doodle-hello, gitops-doodle-frontend, gitops-doodle-world,
 #     and gitops-doodle-loadgen repos cloned as siblings of this repo, each
 #     on their `main` branch (same layout docker-compose.yml expects) -
@@ -31,6 +34,19 @@ FRONTEND_APP="${PREFIX}-frontend"
 LOADGEN_APP="${PREFIX}-loadgen"
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
+find_python() {
+  for candidate in python3.11 python3.12; do
+    if command -v "$candidate" >/dev/null 2>&1; then
+      echo "$candidate"
+      return 0
+    fi
+  done
+  echo "ERROR: need python3.11 or python3.12 on PATH to build the same version the Function Apps run" >&2
+  exit 1
+}
+
+PYTHON_BIN="$(find_python)"
 
 echo "== Resource group: $RESOURCE_GROUP ($LOCATION) =="
 az group create --name "$RESOURCE_GROUP" --location "$LOCATION" --output none
@@ -66,22 +82,29 @@ create_function_app "$LOADGEN_APP"
 publish_app() {
   local repo_dir=$1
   local app_name=$2
+  local src_app_py=$3  # path to the real app.py, relative to $repo_dir
   echo "== Publishing $app_name from $repo_dir/azure-functions =="
   (
     cd "$REPO_ROOT/$repo_dir/azure-functions"
-    python3 -m venv .venv
+    # Azure's remote build only packages this directory, not sibling repo
+    # folders - copy the real source in so the deployed artifact is
+    # self-contained. hello/src/app.py etc. stays the source of truth;
+    # this copy is a build artifact (gitignored), not committed.
+    cp "../$src_app_py" app.py
+    "$PYTHON_BIN" -m venv .venv
     # shellcheck disable=SC1091
     source .venv/bin/activate
     pip install -q -r requirements.txt
     func azure functionapp publish "$app_name" --python
     deactivate
+    rm -f app.py
   )
 }
 
-publish_app "gitops-doodle-hello" "$HELLO_APP"
-publish_app "gitops-doodle-world" "$WORLD_APP"
-publish_app "gitops-doodle-frontend" "$FRONTEND_APP"
-publish_app "gitops-doodle-loadgen" "$LOADGEN_APP"
+publish_app "gitops-doodle-hello" "$HELLO_APP" "hello/src/app.py"
+publish_app "gitops-doodle-world" "$WORLD_APP" "world/src/app.py"
+publish_app "gitops-doodle-frontend" "$FRONTEND_APP" "frontend/src/app.py"
+publish_app "gitops-doodle-loadgen" "$LOADGEN_APP" "loadgen/app.py"
 
 echo "== Wiring cross-service app settings =="
 
