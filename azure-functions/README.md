@@ -11,6 +11,13 @@ runtime) and `weather` (its .NET migration to the isolated-worker model is a
 separate effort). `hello`'s calls to weather will just fail gracefully, the
 same as when weather is unreachable in any other deployment.
 
+**This branch (`azure-functions-newrelic`) instruments `hello`, `world`, and
+`frontend` with the New Relic Python agent.** `loadgen` is deliberately left
+uninstrumented. If you want the Azure Functions adapters with no New Relic
+code at all, use `main` instead (in both this repo and the three service
+repos) - `deploy.sh`/`test-local.sh` here check each sibling repo is on the
+branch they expect and fail fast with the fix if not.
+
 ## Prerequisites
 
 - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli), logged in (`az login`)
@@ -19,10 +26,15 @@ same as when weather is unreachable in any other deployment.
   it) - used to build each app's dependencies before publishing. Newer
   Pythons (3.13 as of this writing) aren't yet supported by the Functions
   Python worker and will hang on startup with a worker-initialization timeout.
-- `gitops-doodle-hello`, `gitops-doodle-frontend`, `gitops-doodle-world`, and
-  `gitops-doodle-loadgen` cloned as siblings of this repo (same layout
-  `docker-compose.yml` expects), each checked out on `main` - the branch with
-  the Azure Functions adapters and no OTel/New Relic config.
+- `gitops-doodle-hello`, `gitops-doodle-frontend`, and `gitops-doodle-world`
+  cloned as siblings of this repo, each checked out on `azure-functions-newrelic`
+  - that's where the New Relic instrumentation actually lives, not `main`.
+- `gitops-doodle-loadgen` cloned as a sibling too, checked out on `main`
+  (same layout `docker-compose.yml` expects) - it's deployed but not
+  instrumented.
+- Optionally, `NEW_RELIC_LICENSE_KEY` exported in your shell before running
+  either script. Without it, the agent still initializes on hello/world/
+  frontend but simply doesn't report any data - it won't break the deploy.
 
 ### On Ubuntu / other Linux
 
@@ -51,13 +63,15 @@ cd azure-functions
 Override any of the defaults via environment variables:
 
 ```
-RESOURCE_GROUP=my-rg LOCATION=westus2 PREFIX=my-doodle ./deploy.sh
+RESOURCE_GROUP=my-rg LOCATION=westus2 PREFIX=my-doodle NEW_RELIC_LICENSE_KEY=... ./deploy.sh
 ```
 
 This creates a resource group, a storage account, four Linux Python
 Consumption-plan Function Apps, publishes each app's code, then wires the
 cross-service app settings (`HELLO_URL`/`WORLD_URL` on frontend, `F_HOST` on
-loadgen) using the actual deployed hostnames.
+loadgen) using the actual deployed hostnames, plus `NEW_RELIC_APP_NAME` (set
+to each Function App's own name) and `NEW_RELIC_LICENSE_KEY` on hello/world/
+frontend.
 
 ## Verify
 
@@ -91,6 +105,10 @@ az functionapp log tail --resource-group <resource-group> --name <prefix>-loadge
   (`az functionapp show --name <app> --query state`).
 - **Worker fails to initialize / times out locally**: almost always a Python
   version mismatch. Rebuild the venv with Python 3.11 or 3.12, not 3.13.
+- **"is on branch 'main', expected 'azure-functions-newrelic'"**: exactly
+  what it says - check out the right branch in that sibling repo. Both
+  scripts check this upfront rather than silently deploying/testing the
+  wrong (non-instrumented) code.
 
 ## Cleanup
 

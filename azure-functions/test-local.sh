@@ -11,12 +11,20 @@
 #
 # Prerequisites: same as deploy.sh (func Core Tools v4, Python 3.11 or 3.12 -
 # NOT 3.13, the Functions Python worker hangs on init with it as of this
-# writing).
+# writing). hello/world/frontend must be checked out on their
+# `azure-functions-newrelic` branch (New Relic instrumentation lives there,
+# not on main); loadgen stays on `main`.
+#
+# New Relic reporting is optional here too: export NEW_RELIC_LICENSE_KEY
+# before running `start` to actually report data; without it the agent just
+# runs without reporting anything.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 RUN_DIR="/tmp/doodle-func-local"
 mkdir -p "$RUN_DIR"
+
+NEW_RELIC_LICENSE_KEY="${NEW_RELIC_LICENSE_KEY:-}"
 
 HELLO_PORT=7071
 FRONTEND_PORT=7072
@@ -35,6 +43,18 @@ find_python() {
 }
 
 PYTHON_BIN="$(find_python)"
+
+check_branch() {
+  local repo_dir=$1
+  local expected_branch=$2
+  local actual_branch
+  actual_branch="$(git -C "$REPO_ROOT/$repo_dir" branch --show-current)"
+  if [ "$actual_branch" != "$expected_branch" ]; then
+    echo "ERROR: $repo_dir is on branch '$actual_branch', expected '$expected_branch'." >&2
+    echo "       git -C $REPO_ROOT/$repo_dir checkout $expected_branch" >&2
+    exit 1
+  fi
+}
 
 setup_and_start() {
   local repo_dir=$1
@@ -64,25 +84,34 @@ setup_and_start() {
 }
 
 cmd_start() {
-  setup_and_start "gitops-doodle-hello" "$HELLO_PORT" '{
-    "IsEncrypted": false,
-    "Values": {
-      "AzureWebJobsStorage": "",
-      "FUNCTIONS_WORKER_RUNTIME": "python",
-      "ERROR_THRESH": "10",
-      "WEATHER_THRESH": "25",
-      "SHARD": "local-fn-test"
-    }
-  }' "hello/src/app.py"
+  check_branch "gitops-doodle-hello" "azure-functions-newrelic"
+  check_branch "gitops-doodle-world" "azure-functions-newrelic"
+  check_branch "gitops-doodle-frontend" "azure-functions-newrelic"
+  check_branch "gitops-doodle-loadgen" "main"
 
-  setup_and_start "gitops-doodle-world" "$WORLD_PORT" '{
-    "IsEncrypted": false,
-    "Values": {
-      "AzureWebJobsStorage": "",
-      "FUNCTIONS_WORKER_RUNTIME": "python",
-      "SHARD": "local-fn-test"
+  setup_and_start "gitops-doodle-hello" "$HELLO_PORT" "{
+    \"IsEncrypted\": false,
+    \"Values\": {
+      \"AzureWebJobsStorage\": \"\",
+      \"FUNCTIONS_WORKER_RUNTIME\": \"python\",
+      \"ERROR_THRESH\": \"10\",
+      \"WEATHER_THRESH\": \"25\",
+      \"SHARD\": \"local-fn-test\",
+      \"NEW_RELIC_APP_NAME\": \"doodle-hello-local-test\",
+      \"NEW_RELIC_LICENSE_KEY\": \"${NEW_RELIC_LICENSE_KEY}\"
     }
-  }' "world/src/app.py"
+  }" "hello/src/app.py"
+
+  setup_and_start "gitops-doodle-world" "$WORLD_PORT" "{
+    \"IsEncrypted\": false,
+    \"Values\": {
+      \"AzureWebJobsStorage\": \"\",
+      \"FUNCTIONS_WORKER_RUNTIME\": \"python\",
+      \"SHARD\": \"local-fn-test\",
+      \"NEW_RELIC_APP_NAME\": \"doodle-world-local-test\",
+      \"NEW_RELIC_LICENSE_KEY\": \"${NEW_RELIC_LICENSE_KEY}\"
+    }
+  }" "world/src/app.py"
 
   setup_and_start "gitops-doodle-frontend" "$FRONTEND_PORT" "{
     \"IsEncrypted\": false,
@@ -92,7 +121,9 @@ cmd_start() {
       \"SHARD\": \"local-fn-test\",
       \"RUBY_WORLD\": \"0\",
       \"HELLO_URL\": \"http://localhost:${HELLO_PORT}\",
-      \"WORLD_URL\": \"http://localhost:${WORLD_PORT}\"
+      \"WORLD_URL\": \"http://localhost:${WORLD_PORT}\",
+      \"NEW_RELIC_APP_NAME\": \"doodle-frontend-local-test\",
+      \"NEW_RELIC_LICENSE_KEY\": \"${NEW_RELIC_LICENSE_KEY}\"
     }
   }" "frontend/src/app.py"
 

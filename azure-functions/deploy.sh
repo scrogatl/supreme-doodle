@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Deploys loadgen, frontend, hello, and world as Azure Function Apps.
+# Deploys loadgen, frontend, hello, and world as Azure Function Apps, with
+# hello/world/frontend instrumented via the New Relic Python agent.
 #
 # Prerequisites:
 #   - az CLI installed and logged in (`az login`)
@@ -8,15 +9,27 @@
 #     app's dependencies) - matches PYTHON_VERSION below; newer Pythons
 #     (3.13 as of this writing) aren't yet supported by the Functions
 #     Python worker.
-#   - The gitops-doodle-hello, gitops-doodle-frontend, gitops-doodle-world,
-#     and gitops-doodle-loadgen repos cloned as siblings of this repo, each
-#     on their `main` branch (same layout docker-compose.yml expects) -
-#     each must already contain its azure-functions/ adapter directory.
+#   - gitops-doodle-hello, gitops-doodle-frontend, and gitops-doodle-world
+#     cloned as siblings of this repo, each on their `azure-functions-newrelic`
+#     branch (that's where the New Relic instrumentation actually lives -
+#     their `main` branches have the adapter but no New Relic code).
+#   - gitops-doodle-loadgen cloned as a sibling too, on `main` (loadgen is
+#     deployed but deliberately NOT instrumented with New Relic).
 #
 # world-ruby and weather are NOT included: Azure Functions has no supported
 # Ruby runtime, and weather's .NET isolated-worker migration is a separate,
 # more involved effort.
+#
+# New Relic reporting is optional: set NEW_RELIC_LICENSE_KEY in your
+# environment before running this script to actually report data. Without
+# it, the agent initializes but simply doesn't report anything - it will
+# not break the deployment.
 set -euo pipefail
+
+NEW_RELIC_LICENSE_KEY="${NEW_RELIC_LICENSE_KEY:-}"
+if [ -z "$NEW_RELIC_LICENSE_KEY" ]; then
+  echo "NOTE: NEW_RELIC_LICENSE_KEY not set - hello/world/frontend will run with the New Relic agent enabled but not reporting anything."
+fi
 
 # ---- Configuration - edit these for your environment ----
 RESOURCE_GROUP="${RESOURCE_GROUP:-supreme-doodle-func}"
@@ -47,6 +60,23 @@ find_python() {
 }
 
 PYTHON_BIN="$(find_python)"
+
+check_branch() {
+  local repo_dir=$1
+  local expected_branch=$2
+  local actual_branch
+  actual_branch="$(git -C "$REPO_ROOT/$repo_dir" branch --show-current)"
+  if [ "$actual_branch" != "$expected_branch" ]; then
+    echo "ERROR: $repo_dir is on branch '$actual_branch', expected '$expected_branch'." >&2
+    echo "       git -C $REPO_ROOT/$repo_dir checkout $expected_branch" >&2
+    exit 1
+  fi
+}
+
+check_branch "gitops-doodle-hello" "azure-functions-newrelic"
+check_branch "gitops-doodle-world" "azure-functions-newrelic"
+check_branch "gitops-doodle-frontend" "azure-functions-newrelic"
+check_branch "gitops-doodle-loadgen" "main"
 
 echo "== Resource group: $RESOURCE_GROUP ($LOCATION) =="
 az group create --name "$RESOURCE_GROUP" --location "$LOCATION" --output none
@@ -112,10 +142,14 @@ az functionapp config appsettings set --resource-group "$RESOURCE_GROUP" --name 
   ERROR_THRESH=10 \
   WEATHER_THRESH=25 \
   SHARD=azure-fn \
+  "NEW_RELIC_APP_NAME=${HELLO_APP}" \
+  "NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}" \
   --output none
 
 az functionapp config appsettings set --resource-group "$RESOURCE_GROUP" --name "$WORLD_APP" --settings \
   SHARD=azure-fn \
+  "NEW_RELIC_APP_NAME=${WORLD_APP}" \
+  "NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}" \
   --output none
 
 az functionapp config appsettings set --resource-group "$RESOURCE_GROUP" --name "$FRONTEND_APP" --settings \
@@ -123,6 +157,8 @@ az functionapp config appsettings set --resource-group "$RESOURCE_GROUP" --name 
   "WORLD_URL=https://${WORLD_APP}.azurewebsites.net" \
   RUBY_WORLD=0 \
   SHARD=azure-fn \
+  "NEW_RELIC_APP_NAME=${FRONTEND_APP}" \
+  "NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}" \
   --output none
 
 az functionapp config appsettings set --resource-group "$RESOURCE_GROUP" --name "$LOADGEN_APP" --settings \
