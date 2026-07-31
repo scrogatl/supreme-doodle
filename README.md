@@ -4,6 +4,32 @@
 
 This repo is for my testing of kubernetes platforms
 
+## Branches
+
+- `main` — clean baseline; no OTel or New Relic instrumentation.
+- `otel` — OpenTelemetry + New Relic NRDOT instrumentation for the Docker/Kubernetes deployments, plus the collector's own Helm values (`k8s/your-custom-values.yaml`).
+- `azure-functions-newrelic` — the Azure Functions deploy/test scripts (`azure-functions/`) wired with `NEW_RELIC_APP_NAME`/`NEW_RELIC_LICENSE_KEY` for `hello`, `world`, and `frontend`. Matches the same-named branch in those three services' own repos; `loadgen` stays on `main` throughout.
+
+## Service interaction
+
+```
+  loadgen
+     │
+     ▼
+  frontend
+     │
+     ├─────────────────────┐
+     ▼                     ▼
+   hello           world / world-ruby
+     │              (split by RUBY_WORLD %)
+     ▼
+  weather
+```
+
+`loadgen` polls `frontend` in a loop. `frontend` calls `hello`, then randomly
+picks `world` (Python) or `world-ruby` (Ruby) per request. `hello` randomly
+calls `weather`, randomly aborts with an HTTP 500, or just returns - all
+three are intentional, configurable fault-injection points, not bugs.
 
 ### Deploy on local Docker  ###
 ```
