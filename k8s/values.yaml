@@ -3,9 +3,9 @@
 # Declare variables to be passed into your templates.
 
 # -- Name of the Kubernetes cluster monitored. Mandatory. Can be configured also with `global.cluster`
-cluster: "mk8s-nrdot-06"
-# -- New Relic account region. Required when using a custom secret for the license key. Can be configured also with `global.region`
-region: "us"
+cluster: ""
+# -- This set this license key to use. Can be configured also with `global.licenseKey`
+licenseKey: ""
 
 kube-state-metrics:
   # kube-state-metrics.enabled -- Install the [`kube-state-metrics` chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-state-metrics) from the stable helm charts repository.
@@ -98,9 +98,9 @@ images:
     pullPolicy: IfNotPresent
 
 # -- In case you don't want to have the license key in you values, this allows you to point to a user created secret to get the key from there. Can be configured also with `global.customSecretName`
-customSecretName: "nr-license-key"
+customSecretName: ""
 # -- In case you don't want to have the license key in you values, this allows you to point to which secret key is the license key located. Can be configured also with `global.customSecretLicenseKey`
-customSecretLicenseKey: "licenseKey"
+customSecretLicenseKey: ""
 
 # -- Configures the Otel collector(s) to send all data through the specified proxy.
 proxy: ""
@@ -259,44 +259,9 @@ deployment:
     extraConfig:
       receivers:
       processors:
-        k8s_attributes/traces:
-            auth_type: "serviceAccount"
-            passthrough: false
-            pod_association:
-              - sources:
-                  - from: resource_attribute
-                    name: k8s.pod.uid
-              - sources:
-                  - from: connection
-            extract:
-              metadata:
-                - "k8s.namespace.name"
-                - "k8s.pod.name"
-                - "k8s.pod.uid"
-                - "k8s.pod.start_time"
-                - "k8s.deployment.name"
-                - "k8s.node.name"
-                - "k8s.container.name"
-                - "container.id"
-                - "container.image.name"
-                - "container.image.tag"
       exporters:
-        debug:
-          verbosity: detailed
       connectors:
       pipelines:
-        traces:
-          receivers: [otlp]
-          processors: [batch, k8s_attributes/traces]
-          exporters: [otlp_http/newrelic, debug]
-        metrics/otlp:
-          receivers: [otlp]
-          processors: [batch, k8s_attributes/traces]
-          exporters: [otlp_http/newrelic, debug]
-        logs:
-          receivers: [otlp]
-          processors: [batch, k8s_attributes/traces]
-          exporters: [otlp_http/newrelic]
   # -- Additional volumes to be added to the deployment pod
   extraVolumes: []
   # - name: example-volume
@@ -393,7 +358,6 @@ receivers:
     # @default -- `1m`
     scrapeInterval: 1m
 
-
 # Modern method for enabling the collector to report its own metrics (replaces `receivers.collectorMetrics`)
 collectorObservability:
   # -- (bool) Specifies whether the collector reports its own metrics
@@ -405,7 +369,7 @@ collectorObservability:
 
 # -- (bool) Send only the [metrics required](https://github.com/newrelic/helm-charts/tree/master/charts/nr-k8s-otel-collector/docs/metrics-lowDataMode.md) to light up the NR kubernetes UI
 # @default -- `true`
-lowDataMode: true
+lowDataMode:
 
 ################################################################################
 # Experimental Features
