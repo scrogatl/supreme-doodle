@@ -63,6 +63,27 @@ for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\
 for FILE in services/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
 
 ```
+### Missing CPU/Memory on the New Relic Kubernetes Clusters page (bare-metal/microk8s)
+
+The OTel collector's `kubeletstats` receiver scrapes each node by hostname over
+`:10250`. On bare-metal/microk8s clusters, cluster DNS (CoreDNS) typically has
+no record for node hostnames, so every scrape fails and node CPU/Memory never
+reaches New Relic. Check for this with:
+
+```
+kubectl logs -n newrelic -l app.kubernetes.io/component=daemonset | grep kubelet_stats
+```
+
+If you see `dial tcp: lookup <node> ... no such host`, apply the static DNS
+entry (edit the IP/hostname in the file first if they differ, and add one line
+per node for multi-node clusters):
+
+```
+kubectl apply -f k8s/coredns-node-hosts.yaml
+```
+
+CoreDNS reloads this live — no pod restarts needed.
+
 ### For the otel branch, create a secret with your New Relic ingest key like so:
 
 ```

@@ -1,0 +1,42 @@
+# Fixes missing CPU/Memory metrics on the New Relic Kubernetes Clusters page.
+#
+# The nr-k8s-otel-collector chart's kubeletstats receiver always scrapes
+# https://<node-hostname>:10250/stats/summary. On managed clouds (EKS/GKE/AKS)
+# cluster DNS can resolve node hostnames; on bare-metal/microk8s it usually
+# can't, so every scrape fails DNS resolution and node-level CPU/Memory metrics
+# never reach New Relic. This adds a static entry per node so CoreDNS can
+# resolve it. Add one "<node-ip> <node-hostname>" line per node in the cluster.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+  labels:
+    addonmanager.kubernetes.io/mode: EnsureExists
+    k8s-app: kube-dns
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health {
+          lameduck 5s
+        }
+        ready
+        log . {
+          class error
+        }
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+          pods insecure
+          fallthrough in-addr.arpa ip6.arpa
+        }
+        hosts {
+          192.168.1.100 opti-3040
+          fallthrough
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
