@@ -280,6 +280,11 @@ deployment:
                 - "container.id"
                 - "container.image.name"
                 - "container.image.tag"
+        resource/cluster:
+          attributes:
+            - key: k8s.cluster.name
+              value: "mk8s-nrdot-06"
+              action: upsert
       exporters:
         debug:
           verbosity: detailed
@@ -287,15 +292,15 @@ deployment:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [batch, k8s_attributes/traces]
+          processors: [batch, k8s_attributes/traces, resource/cluster]
           exporters: [otlp_http/newrelic, debug]
         metrics/otlp:
           receivers: [otlp]
-          processors: [batch, k8s_attributes/traces]
+          processors: [batch, k8s_attributes/traces, resource/cluster]
           exporters: [otlp_http/newrelic, debug]
         logs:
           receivers: [otlp]
-          processors: [batch, k8s_attributes/traces]
+          processors: [batch, k8s_attributes/traces, resource/cluster]
           exporters: [otlp_http/newrelic]
   # -- Additional volumes to be added to the deployment pod
   extraVolumes: []
