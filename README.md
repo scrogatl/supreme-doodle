@@ -2,76 +2,16 @@
 
 ## This repository is not officially verified, tested or supported. ##
 
-This repo is for my testing of kubernetes platforms
+This branch deploys `loadgen`, `frontend`, `hello`, and `world` as Azure
+Function Apps instrumented with the New Relic Python agent, instead of
+containers. There is no Docker Compose, Kubernetes, or Azure Container Apps
+config here — see the `main` branch for those deployment paths.
 
+### Deploy on Azure Functions (with New Relic) ###
 
-### Deploy on local Docker  ###
-```
-cd docker
-docker compose up -d 
-```
-
-**For local build** 
-
-Place docker-compose.yml in parent directory (above) the source repos and run
-```
-docker compose build 
-```
-
-### Deploy on K8S
-```
-cd k8s
-kubectl apply -f deployments/
-kubectl apply -f services/
-
-```
-
-### Deploy on Azure Container apps with New Relic agent
-
-```
-cd azure-container-apps
-export NEW_RELIC_LICENSE_KEY=YOUR NEW RELIC LICENSE KEY
-az group create --name supreme-doodle  --location eastus2 
-az containerapp compose create -g supreme-doodle --environment supreme-doodle 
-```
-### Deploy on Azure Functions ###
-
-Deploys `loadgen`, `frontend`, `hello`, and `world` as Azure Function Apps
-instead of containers. See [azure-functions/README.md](azure-functions/README.md)
-for prerequisites, the deploy script, and a local-testing script that runs
-all four via Azure Functions Core Tools without touching Azure at all.
-
-### Deploy on K8S with Argo ###
-```
-argocd app create doodle-loadgen --repo https://github.com/scrogatl/gitops-doodle-loadgen.git --path . --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc 
-
-argocd app create doodle-hello --repo https://github.com/scrogatl/gitops-doodle-hello.git --path helm-chart --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc --helm-set replicaCount=1 --sync-policy automated --revision main
-
-argocd app create doodle-frontend --repo https://github.com/scrogatl/gitops-doodle-frontend.git --path helm-chart --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc --helm-set replicaCount=1  --sync-policy automated --revision main
-
-argocd app create doodle-world-ruby --repo https://github.com/scrogatl/gitops-doodle-world-ruby.git --path helm-chart --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc --helm-set replicaCount=1 --sync-policy automated --revision main
-
-argocd app create doodle-world  --repo https://github.com/scrogatl/gitops-doodle-world.git --path helm-chart --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc --helm-set replicaCount=1 --sync-policy automated --revision main
-```
-
-### Change the label: "app.kubernetes.io/name:"
-
-
-Changes/appends '3040' to the label (for reporting into New Relic):
-
-```
-for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
-
-for FILE in services/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
-
-```
-### doodle-world now has Prometheus metrics counter for requests
-
-Must add annotation to have New Relic scrape prometheus metrics like so
-
-``` 
-POD=`k get pods -n supreme-doodle | grep -i world | grep -v  ruby | grep Running | awk '{print $1}' `; k annotate pods $POD -n supreme-doodle   newrelic.io/scrape="true" ```
-```
+See [azure-functions/README.md](azure-functions/README.md) for prerequisites,
+the deploy script, and a local-testing script that runs all four via Azure
+Functions Core Tools without touching Azure at all.
 
 #### The source for these are in the ```gitops-doodle-``` repos: 
 
