@@ -8,7 +8,7 @@ This repo is for my testing of kubernetes platforms
 ## The Otel Branch
 This branch has OTEL specific configs for Docker and K8S. The OTEL configs are generic and only point to New Relic's NRDOT collector. Change the endpoint and this config will work with other OTEL products.
 
-The "your-custom-values.yaml" is configured to work with New Relic's Otel Distribution (nrdot).  
+The "your-custom-values.yaml" is configured to work with New Relic's Otel Distribution (nrdot). See [k8s/README.md](k8s/README.md) for exactly what's customized in that file versus the chart's stock `values.yaml`.
 
 ### Deploy on local Docker  ###
 ```
