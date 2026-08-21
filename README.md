@@ -78,6 +78,10 @@ argocd app create doodle-frontend --repo https://github.com/scrogatl/gitops-dood
 argocd app create doodle-world-ruby --repo https://github.com/scrogatl/gitops-doodle-world-ruby.git --path helm-chart --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc --helm-set replicaCount=1 --sync-policy automated --revision main
 
 argocd app create doodle-world  --repo https://github.com/scrogatl/gitops-doodle-world.git --path helm-chart --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc --helm-set replicaCount=1 --sync-policy automated --revision main
+
+argocd app create doodle-weather  --repo https://github.com/scrogatl/gitops-doodle-weather.git --path helm-chart --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc --helm-set replicaCount=1 --sync-policy automated --revision main
+
+argocd app create doodle-weather-java  --repo https://github.com/scrogatl/gitops-doodle-weather-java.git --path helm-chart --dest-namespace supreme-doodle --dest-server https://kubernetes.default.svc --helm-set replicaCount=1 --sync-policy automated --revision main
 ```
 
 ### Change the label: "app.kubernetes.io/name:"
@@ -108,6 +112,7 @@ git clone https://github.com/scrogatl/gitops-doodle-hello.git
 git clone https://github.com/scrogatl/gitops-doodle-world.git
 git clone https://github.com/scrogatl/gitops-doodle-world-ruby.git
 git clone https://github.com/scrogatl/gitops-doodle-weather.git
+git clone https://github.com/scrogatl/gitops-doodle-weather-java.git
 ```
 
 
