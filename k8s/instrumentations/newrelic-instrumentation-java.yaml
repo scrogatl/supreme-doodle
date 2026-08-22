@@ -1,0 +1,30 @@
+apiVersion: newrelic.com/v1beta2
+kind: Instrumentation
+metadata:
+  name: newrelic-instrumentation-java
+  namespace: newrelic
+spec:
+  agent:
+    language: java
+    image: newrelic/newrelic-java-init:latest
+    env:
+      - name: NEW_RELIC_APP_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['app.kubernetes.io/name']
+  # podLabelSelector:
+  #   matchExpressions:
+  #     - key: "app.kubernetes.io/name"
+  #       operator: "In"
+  #       values: ["doodle-frontend", "doodle-hello", "doodle-world"]
+  # namespaceLabelSelector:
+  #   matchExpressions:
+  #     - key: "kubernetes.io/metadata.name"
+  #       operator: "In"
+  #       values: ["supreme-doodle"]
+  containerSelector:
+      imageSelector:
+        matchExpressions:
+          - key: url
+            operator: In
+            values: ["ghcr.io/scrogatl/doodle-weather-java:main"]
