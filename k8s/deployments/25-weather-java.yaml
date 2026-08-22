@@ -2,16 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app.kubernetes.io/name: doodle-weather-java
     application: helloworld
     service: doodle-weather-java
     version: blue
     shard: blue
-  name: weather-java
+  name: doodle-weather-java
   namespace: supreme-doodle
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app.kubernetes.io/name: doodle-weather-java
       application: helloworld
       service: doodle-weather-java
       version: blue
@@ -19,13 +21,14 @@ spec:
   template:
     metadata:
       labels:
+        app.kubernetes.io/name: doodle-weather-java
         application: helloworld
         service: doodle-weather-java
         version: blue
         shard: blue
     spec:
       containers:
-      - name: weather-java
+      - name: doodle-weather-java
         image: ghcr.io/scrogatl/doodle-weather-java:main
         imagePullPolicy: Always
         env:
