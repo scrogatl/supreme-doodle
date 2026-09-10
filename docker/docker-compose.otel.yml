@@ -1,0 +1,78 @@
+services:
+  #The NRDOT Collector container
+  nrdot-collector:
+    image: newrelic/nrdot-collector
+    container_name: nrdot-collector
+    environment:
+      - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+      - NEW_RELIC_OTLP_ENDPOINT='https://otlp.nr-data.net:4318'
+    volumes:
+      - ./config.yaml:/etc/nrdot-collector/config.yaml
+      - /:/hostfs
+    ports:
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+      - "8888:8888"
+
+  # telemetrygen:
+  #   image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:latest
+  #   container_name: telemetrygen
+  #   command:
+  #     - "traces"
+  #     - "--traces=10"
+  #     - "--otlp-endpoint=nrdot-collector:4317"
+  #     - "--otlp-insecure"
+  #     - "--rate=10"
+  #     - "--duration=0s" # 0s means run forever
+
+  # world-ruby:
+  #   environment:
+  #     - OTEL_SERVICE_NAME=world-ruby-otel
+  #     - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4317
+  #     - OTEL_EXPORTER_OTLP_INSECURE=true
+  #     - OTEL_LOGS_EXPORTER=otlp
+  #     - OTEL_TRACES_EXPORTER=otlp
+  #     - OTEL_METRICS_EXPORTER=otlp
+
+  world:
+    environment:
+      - OTEL_SERVICE_NAME=world-otel-docker-test
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - OTEL_LOGS_EXPORTER=otlp
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
+      - OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+    command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5002"]
+
+  hello:
+    environment:
+      - OTEL_SERVICE_NAME=hello-otel-docker-test
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - OTEL_LOGS_EXPORTER=otlp
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
+      - OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+    command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5001"]
+
+  frontend:
+    environment:
+      - OTEL_SERVICE_NAME=frontend-otel-docker-test
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - OTEL_LOGS_EXPORTER=otlp
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
+      - OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+    command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5000"]
+
+  weather-java:
+    environment:
+      - OTEL_SERVICE_NAME=weather-java-otel-docker-test
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4318
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - OTEL_LOGS_EXPORTER=otlp
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
+      - JAVA_TOOL_OPTIONS=-javaagent:/app/opentelemetry-javaagent.jar

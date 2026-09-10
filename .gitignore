@@ -11,3 +11,5 @@ terraform.tfstate*
 secrets.tfvars
 *.BAK
 .fuse*
+.env
+docker/nrdot-collector.conf
