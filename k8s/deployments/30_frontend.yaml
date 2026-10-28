@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ghcr.io/scrogatl/doodle-frontend:latest
+        image: ghcr.io/scrogatl/doodle-frontend:newrelic
         imagePullPolicy: Always
         command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5000"]
         env:

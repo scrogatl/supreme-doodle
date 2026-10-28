@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: hello
-        image: ghcr.io/scrogatl/doodle-hello:latest
+        image: ghcr.io/scrogatl/doodle-hello:newrelic
         imagePullPolicy: Always
         command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5001"]
         env:
@@ -50,7 +50,7 @@ spec:
         - name: ERROR_THRESH
           value: "1"
         - name: WEATHER_HOST
-          value: "weather"
+          value: "doodle-weather-java"
         - name: WEATHER_THRESH
           value: "50"
         ports:
