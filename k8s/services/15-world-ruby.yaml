@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: world-ruby
+  namespace: supreme-doodle
+spec: 
+  selector:
+    application: helloworld
+    service: world-ruby
+  type: ClusterIP
+  ports:
+  - name: http
+    # protocol: TCP
+    appProtocol: http
+    port: 5003
