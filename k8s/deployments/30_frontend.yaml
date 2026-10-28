@@ -43,8 +43,7 @@ spec:
         - name: WORLD_HOST_RUBY
           value: "world-ruby"
         - name: WPORT
-          value: "80"
-          # value: "5002"
+          value: "5002"
         - name: WPORT_RUBY
           value: "5003"
         - name: SHARD
