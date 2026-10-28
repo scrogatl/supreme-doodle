@@ -54,6 +54,13 @@ services:
       - SHARD=docker-local
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
+  weather-java:
+    image: ghcr.io/scrogatl/doodle-weather-java:main
+    container_name: weather-java
+    environment:
+      - SHARD=docker-local
+      - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+
   
   loadgen:
     image: ghcr.io/scrogatl/doodle-loadgen:latest
