@@ -39,6 +39,8 @@ spec:
             secretKeyRef:
               name: nr-license-key
               key: license-key
+        - name: NEW_RELIC_APP_NAME
+          value: "doodle-world"
         ports:
         - containerPort: 5002
           name: application
