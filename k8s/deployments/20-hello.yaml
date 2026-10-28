@@ -45,6 +45,8 @@ spec:
             secretKeyRef:
               name: nr-license-key
               key: license-key
+        - name: NEW_RELIC_APP_NAME
+          value: "doodle-hello"
         - name: ERROR_THRESH
           value: "1"
         - name: WEATHER_HOST

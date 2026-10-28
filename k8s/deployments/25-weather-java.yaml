@@ -42,6 +42,8 @@ spec:
             secretKeyRef:
               name: nr-license-key
               key: license-key
+        - name: NEW_RELIC_APP_NAME
+          value: "doodle-weather-java"
         ports:
         - containerPort: 5100
           name: application

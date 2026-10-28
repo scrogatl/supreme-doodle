@@ -47,6 +47,8 @@ spec:
             secretKeyRef:
               name: nr-license-key
               key: license-key
+        - name: NEW_RELIC_APP_NAME
+          value: "doodle-world-ruby"
         ports:
         - containerPort: 5003
           name: application
