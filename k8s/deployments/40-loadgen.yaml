@@ -48,10 +48,4 @@ spec:
           value: "aks-edge"
         - name: DOODLE-VERSION
           value: "V0.99.1"
-        - name: NEW_RELIC_LICENSE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: nr-license-key
-              key: license-key
-      # imagePullSecrets:
-      # - name: ghcr-login-secret
+
