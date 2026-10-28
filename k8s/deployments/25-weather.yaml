@@ -35,7 +35,10 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: NEW_RELIC_LICENSE_KEY
-          value:  "{{ .Values.nr_key }}"
+          valueFrom:
+            secretKeyRef:
+              name: nr-license-key
+              key: license-key
         ports:
         - containerPort: 5100
           name: application

@@ -34,9 +34,13 @@ docker compose build
 ```
 
 ### Deploy on K8S
+The pods read the New Relic license key from a Secret named `nr-license-key` (key `license-key`):
 ```
+kubectl create namespace supreme-doodle
+kubectl -n supreme-doodle create secret generic nr-license-key --from-literal=license-key=<YOUR_LICENSE_KEY>
 cd k8s
-kubectl apply -f .
+kubectl apply -f deployments/
+kubectl apply -f services/
 ```
 
 #### The source for these are in the ```gitops-doodle-``` repos: 

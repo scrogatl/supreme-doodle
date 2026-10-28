@@ -56,7 +56,10 @@ spec:
         - name: NEW_RELIC_APP_NAME
           value: "doodle-frontend"
         - name: NEW_RELIC_LICENSE_KEY
-          value: $NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nr-license-key
+              key: license-key
         
 
         ports:

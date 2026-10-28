@@ -41,7 +41,10 @@ spec:
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: NEW_RELIC_LICENSE_KEY
-          value:  $NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nr-license-key
+              key: license-key
         - name: NEW_RELIC_APP_NAME
           value: "doodle-hello"
         - name: ERROR_THRESH
