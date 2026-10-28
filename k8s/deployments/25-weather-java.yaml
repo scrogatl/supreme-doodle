@@ -3,10 +3,11 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/name: doodle-weather-java
-    application: helloworld
-    service: doodle-weather-java
-    version: blue
-    shard: blue
+    app.kubernetes.io/instance: doodle-weather-java-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
   name: doodle-weather-java
   namespace: supreme-doodle
 spec:
@@ -14,18 +15,20 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: doodle-weather-java
-      application: helloworld
-      service: doodle-weather-java
-      version: blue
-      shard: blue
+      app.kubernetes.io/instance: doodle-weather-java-instance
+      app.kubernetes.io/version: "0.9.1"
+      app.kubernetes.io/component: service
+      app.kubernetes.io/part-of: helloworld
+      app.kubernetes.io/managed-by: kubectl
   template:
     metadata:
       labels:
         app.kubernetes.io/name: doodle-weather-java
-        application: helloworld
-        service: doodle-weather-java
-        version: blue
-        shard: blue
+        app.kubernetes.io/instance: doodle-weather-java-instance
+        app.kubernetes.io/version: "0.9.1"
+        app.kubernetes.io/component: service
+        app.kubernetes.io/part-of: helloworld
+        app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
       - name: doodle-weather-java
@@ -39,8 +42,6 @@ spec:
             secretKeyRef:
               name: nr-license-key
               key: license-key
-        - name: NEW_RELIC_APP_NAME
-          value: "doodle-weather-java"
         ports:
         - containerPort: 5100
           name: application

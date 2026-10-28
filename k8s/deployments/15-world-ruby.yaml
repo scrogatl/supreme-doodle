@@ -2,29 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    application: helloworld
-    service: world-ruby
-    version: blue
-    shard: blue
+    app.kubernetes.io/name: doodle-world-ruby
+    app.kubernetes.io/instance: world-ruby-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
   name: world-ruby
   namespace: supreme-doodle
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application: helloworld
-      service: world-ruby
-      version: blue
-      shard: blue
+      app.kubernetes.io/name: doodle-world-ruby
+      app.kubernetes.io/instance: world-ruby-instance
+      app.kubernetes.io/version: "0.9.1"
+      app.kubernetes.io/component: service
+      app.kubernetes.io/part-of: helloworld
+      app.kubernetes.io/managed-by: kubectl
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: world-ruby
-        ruby:
-        application: helloworld
-        service: world-ruby
-        version: blue
-        shard: blue
+        app.kubernetes.io/name: doodle-world-ruby
+        app.kubernetes.io/instance: world-ruby-instance
+        app.kubernetes.io/version: "0.9.1"
+        app.kubernetes.io/component: service
+        app.kubernetes.io/part-of: helloworld
+        app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
       - name: world-ruby
@@ -43,8 +47,6 @@ spec:
             secretKeyRef:
               name: nr-license-key
               key: license-key
-        - name: NEW_RELIC_APP_NAME
-          value: "doodle-world-ruby"
         ports:
         - containerPort: 5003
           name: application

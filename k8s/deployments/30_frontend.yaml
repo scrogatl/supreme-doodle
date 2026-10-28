@@ -4,7 +4,7 @@ metadata:
   name: frontend
   namespace: supreme-doodle
   labels:
-    app.kubernetes.io/name: frontend
+    app.kubernetes.io/name: doodle-frontend
     app.kubernetes.io/instance: frontend-instance
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
@@ -14,7 +14,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: frontend
+      app.kubernetes.io/name: doodle-frontend
       app.kubernetes.io/instance: frontend-instance
       app.kubernetes.io/version: "0.9.1"
       app.kubernetes.io/component: service
@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: frontend
+        app.kubernetes.io/name: doodle-frontend
         app.kubernetes.io/instance: frontend-instance
         app.kubernetes.io/version: "0.9.1"
         app.kubernetes.io/component: service
@@ -52,8 +52,6 @@ spec:
           value: "1"
         - name: RUBY_WORLD
           value: "75"
-        - name: NEW_RELIC_APP_NAME
-          value: "doodle-frontend"
         - name: NEW_RELIC_LICENSE_KEY
           valueFrom:
             secretKeyRef:

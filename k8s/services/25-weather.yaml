@@ -3,10 +3,21 @@ kind: Service
 metadata:
   name: weather
   namespace: supreme-doodle
+  labels:
+    app.kubernetes.io/name: doodle-weather
+    app.kubernetes.io/instance: weather-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
 spec: 
   selector:
-    application: helloworld
-    service: weather
+    app.kubernetes.io/name: doodle-weather
+    app.kubernetes.io/instance: weather-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
   type: ClusterIP
   ports:
   - name: http

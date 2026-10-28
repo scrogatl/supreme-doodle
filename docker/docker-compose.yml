@@ -5,7 +5,6 @@ services:
   #   container_name: world-ruby
   #   environment: 
   #     - SHARD=docker-local
-  #     - NEW_RELIC_APP_NAME=doodle-world-ruby-docker-local
   #     - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
 
@@ -15,7 +14,6 @@ services:
     container_name: world
     environment: 
       - SHARD=docker-local
-      - NEW_RELIC_APP_NAME=doodle-world-docker-local
       - PYTHONUNBUFFERED=1
       - OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net
       - OTEL_EXPORTER_OTLP_HEADERS=api-key=
@@ -30,7 +28,6 @@ services:
     container_name: hello
     environment: 
       - SHARD=docker-local
-      - NEW_RELIC_APP_NAME=doodle-hello-docker-local
       - WEATHER_HOST=weather
       - PYTHONUNBUFFERED=1
       - ERROR_THRESH=1
@@ -49,7 +46,6 @@ services:
       - WORLD_HOST_RUBY=world-ruby
       - WPORT_RUBY=5003
       - SHARD=docker-local
-      - NEW_RELIC_APP_NAME=doodle-frontend-docker-local
       - PYTHONUNBUFFERED=1
       - RUBY_WORLD=0
       # - OTEL_EXPORTER_OTLP_HEADERS=api-key=
@@ -63,7 +59,6 @@ services:
     container_name: weather
     environment:
       - SHARD=docker-local
-      - NEW_RELIC_APP_NAME=doodle-weather-docker-local
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
   weather-java:
@@ -72,7 +67,6 @@ services:
     container_name: weather-java
     environment:
       - SHARD=docker-local
-      - NEW_RELIC_APP_NAME=doodle-weather-java-docker-local
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
 
@@ -85,5 +79,4 @@ services:
       - SLEEP_TIME=16000
       - PYTHONUNBUFFERED=1
       - SHARD=docker-local
-      - NEW_RELIC_APP_NAME=doodle-loadgen-docker-local
 

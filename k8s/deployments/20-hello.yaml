@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: hello
+    app.kubernetes.io/name: doodle-hello
     app.kubernetes.io/instance: hello-xyzz
     app.kubernetes.io/version: "0.9.1"
     app.kubernetes.io/component: service
@@ -14,7 +14,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: hello
+      app.kubernetes.io/name: doodle-hello
       app.kubernetes.io/instance: hello-xyzz
       app.kubernetes.io/version: "0.9.1"
       app.kubernetes.io/component: service
@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: hello
+        app.kubernetes.io/name: doodle-hello
         app.kubernetes.io/instance: hello-xyzz
         app.kubernetes.io/version: "0.9.1"
         app.kubernetes.io/component: service
@@ -45,8 +45,6 @@ spec:
             secretKeyRef:
               name: nr-license-key
               key: license-key
-        - name: NEW_RELIC_APP_NAME
-          value: "doodle-hello"
         - name: ERROR_THRESH
           value: "1"
         - name: WEATHER_HOST

@@ -2,25 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    application: helloworld
-    service: doodle-loadgen
-    shard: blue
-    version: doodle-loadgen
+    app.kubernetes.io/name: doodle-loadgen
+    app.kubernetes.io/instance: doodle-loadgen-instance
+    app.kubernetes.io/version: "0.9.1"
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
   name: doodle-loadgen
   namespace: supreme-doodle
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application: helloworld
-      service: doodle-loadgen
-      shard: blue
+      app.kubernetes.io/name: doodle-loadgen
+      app.kubernetes.io/instance: doodle-loadgen-instance
+      app.kubernetes.io/version: "0.9.1"
+      app.kubernetes.io/component: service
+      app.kubernetes.io/part-of: helloworld
+      app.kubernetes.io/managed-by: kubectl
   template:
     metadata:
       labels:
-        application: helloworld
-        service: doodle-loadgen
-        shard: blue
+        app.kubernetes.io/name: doodle-loadgen
+        app.kubernetes.io/instance: doodle-loadgen-instance
+        app.kubernetes.io/version: "0.9.1"
+        app.kubernetes.io/component: service
+        app.kubernetes.io/part-of: helloworld
+        app.kubernetes.io/managed-by: kubectl
     spec:
       containers:
       - name: loadgen
@@ -45,7 +53,5 @@ spec:
             secretKeyRef:
               name: nr-license-key
               key: license-key
-        - name: NEW_RELIC_APP_NAME
-          value: "doodle-loadgen"
       # imagePullSecrets:
       # - name: ghcr-login-secret
