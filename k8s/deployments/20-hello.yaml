@@ -34,16 +34,11 @@ spec:
       - name: doodle-hello
         image: ghcr.io/scrogatl/doodle-hello:main
         imagePullPolicy: Always
-        # command: ["newrelic-admin", "run-program", "flask", "run", "--host=0.0.0.0", "-p 5001"]
         env:
         - name: SHARD
           value: "blue"
         - name: PYTHONUNBUFFERED
           value: "1"
-        # - name: NEW_RELIC_LICENSE_KEY
-        #   value:  $NEW_RELIC_LICENSE_KEY
-        # - name: NEW_RELIC_APP_NAME
-        #   value: "doodle-hello"
         - name: ERROR_THRESH
           value: "10"
         - name: WEATHER_HOST
@@ -54,9 +49,6 @@ spec:
           value: "5100"
         - name: WEATHER_THRESH
           value: "25"
-        # Highlight: Explicitly setting the OTel service name
-        - name: OTEL_SERVICE_NAME
-          value: "hello-service" 
         ports:
         - containerPort: 5001
           name: application

@@ -36,10 +36,6 @@ spec:
           value: "blue"
         - name: PYTHONUNBUFFERED
           value: "1"
-        #- name: NEW_RELIC_LICENSE_KEY
-        #  value:  "{{ .Values.nr_key }}"
-        - name: OTEL_SERVICE_NAME
-          value: "weather-service" 
         ports:
         - containerPort: 5100
           name: application
