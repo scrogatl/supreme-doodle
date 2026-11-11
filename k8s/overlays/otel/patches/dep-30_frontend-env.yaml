@@ -1,0 +1,40 @@
+# env changes vs base (strategic merge: matched by env name)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doodle-frontend
+  namespace: supreme-doodle
+spec:
+  template:
+    spec:
+      containers:
+      - name: doodle-frontend
+        env:
+        - name: RUBY_WORLD
+          value: '50'
+        - name: KUBE_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME)
+        - name: OTEL_SERVICE_NAME
+          value: frontend-otel
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://nr-k8s-otel-collector-gateway.newrelic.svc.cluster.local:4317
+        - name: OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED
+          value: 'true'
+        - name: OTEL_LOGS_EXPORTER
+          value: otlp
+        - name: OTEL_TRACES_EXPORTER
+          value: otlp
+        - name: OTEL_METRICS_EXPORTER
+          value: otlp

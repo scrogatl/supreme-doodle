@@ -1,0 +1,16 @@
+# env changes vs base (strategic merge: matched by env name)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doodle-loadgen
+  namespace: supreme-doodle
+spec:
+  template:
+    spec:
+      containers:
+      - name: doodle-loadgen
+        env:
+        - name: F_HOST
+          value: frontend
+        - name: SLEEP_TIME
+          value: '16500'

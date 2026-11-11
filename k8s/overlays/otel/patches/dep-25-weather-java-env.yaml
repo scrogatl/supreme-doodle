@@ -1,0 +1,14 @@
+# env changes vs base (strategic merge: matched by env name)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doodle-weather-java
+  namespace: supreme-doodle
+spec:
+  template:
+    spec:
+      containers:
+      - name: doodle-weather-java
+        env:
+        - name: OTEL_SERVICE_NAME
+          value: weather-service

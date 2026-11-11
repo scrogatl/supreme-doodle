@@ -1,0 +1,19 @@
+# env changes vs base (strategic merge: matched by env name)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather
+  namespace: supreme-doodle
+spec:
+  template:
+    spec:
+      containers:
+      - name: weather
+        env:
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nr-license-key
+              key: license-key
+        - name: NEW_RELIC_APP_NAME
+          value: doodle-weather

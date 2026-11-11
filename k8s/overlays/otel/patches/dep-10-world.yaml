@@ -1,0 +1,39 @@
+# JSON6902 changes vs base
+- op: replace
+  path: "/spec/template/spec/containers/0/image"
+  value: ghcr.io/scrogatl/doodle-world:otel
+- op: add
+  path: "/spec/template/spec/containers/0/command"
+  value:
+  - opentelemetry-instrument
+  - flask
+  - run
+  - "--host=0.0.0.0"
+  - "-p 5002"
+- op: replace
+  path: "/spec/selector/matchLabels"
+  value:
+    app.kubernetes.io/name: doodle-world-otel
+    app.kubernetes.io/instance: world-xyzz
+    app.kubernetes.io/version: 0.9.1
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
+- op: replace
+  path: "/spec/template/metadata/labels"
+  value:
+    app.kubernetes.io/name: doodle-world-otel
+    app.kubernetes.io/instance: world-xyzz
+    app.kubernetes.io/version: 0.9.1
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
+- op: replace
+  path: "/metadata/labels"
+  value:
+    app.kubernetes.io/name: doodle-world-otel
+    app.kubernetes.io/instance: world-xyzz
+    app.kubernetes.io/version: 0.9.1
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl

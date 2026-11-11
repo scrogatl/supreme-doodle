@@ -1,0 +1,4 @@
+# JSON6902 changes vs base
+- op: replace
+  path: "/metadata/name"
+  value: hello
