@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: doodle-frontend
-        image: ghcr.io/scrogatl/doodle-frontend:main
+        image: ghcr.io/scrogatl/doodle-frontend:plain
         imagePullPolicy: Always
         env:
         - name: HELLO_HOST
