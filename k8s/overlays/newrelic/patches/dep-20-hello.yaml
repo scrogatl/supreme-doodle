@@ -1,0 +1,19 @@
+# JSON6902 changes vs base
+- op: replace
+  path: "/spec/template/spec/containers/0/name"
+  value: hello
+- op: replace
+  path: "/spec/template/spec/containers/0/image"
+  value: ghcr.io/scrogatl/doodle-hello:newrelic
+- op: add
+  path: "/spec/template/spec/containers/0/command"
+  value:
+  - newrelic-admin
+  - run-program
+  - flask
+  - run
+  - "--host=0.0.0.0"
+  - "-p 5001"
+- op: replace
+  path: "/metadata/name"
+  value: hello

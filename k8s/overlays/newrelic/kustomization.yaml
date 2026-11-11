@@ -1,0 +1,64 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- "../../base"
+patches:
+- path: patches/dep-10-world-env.yaml
+- path: patches/dep-10-world.yaml
+  target:
+    kind: Deployment
+    name: doodle-world
+- path: patches/dep-15-world-ruby-env.yaml
+- path: patches/dep-15-world-ruby.yaml
+  target:
+    kind: Deployment
+    name: doodle-world-ruby
+- path: patches/dep-20-hello-env.yaml
+- path: patches/dep-20-hello.yaml
+  target:
+    kind: Deployment
+    name: doodle-hello
+- path: patches/dep-25-weather-java-env.yaml
+- path: patches/dep-25-weather-java.yaml
+  target:
+    kind: Deployment
+    name: doodle-weather-java
+- path: patches/dep-25-weather-env.yaml
+- path: patches/dep-25-weather.yaml
+  target:
+    kind: Deployment
+    name: weather
+- path: patches/dep-30_frontend-env.yaml
+- path: patches/dep-30_frontend.yaml
+  target:
+    kind: Deployment
+    name: doodle-frontend
+- path: patches/dep-40-loadgen-env.yaml
+- path: patches/dep-40-loadgen.yaml
+  target:
+    kind: Deployment
+    name: doodle-loadgen
+- path: patches/svc-10-world.yaml
+  target:
+    kind: Service
+    name: doodle-world
+- path: patches/svc-15-world-ruby.yaml
+  target:
+    kind: Service
+    name: doodle-world-ruby
+- path: patches/svc-20-hello.yaml
+  target:
+    kind: Service
+    name: doodle-hello
+- path: patches/svc-25-weather-java.yaml
+  target:
+    kind: Service
+    name: doodle-weather-java
+- path: patches/svc-25-weather.yaml
+  target:
+    kind: Service
+    name: doodle-weather
+- path: patches/svc-29-frontend-service.yaml
+  target:
+    kind: Service
+    name: doodle-frontend

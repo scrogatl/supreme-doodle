@@ -1,0 +1,14 @@
+# env changes vs base (strategic merge: matched by env name)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doodle-world-ruby
+  namespace: supreme-doodle
+spec:
+  template:
+    spec:
+      containers:
+      - name: doodle-world-ruby
+        env:
+        - name: OTEL_SERVICE_NAME
+          value: world-ruby-otel

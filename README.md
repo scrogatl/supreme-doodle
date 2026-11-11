@@ -6,8 +6,8 @@ This repo is for my testing of kubernetes platforms
 
 ## Branches
 
-- `main` — clean baseline; no OTel or New Relic instrumentation.
-- `otel` — OpenTelemetry + New Relic NRDOT instrumentation for the Docker/Kubernetes deployments, plus the collector's own Helm values (`k8s/your-custom-values.yaml`).
+- `main` — Kubernetes manifests live in `k8s/base` with one Kustomize overlay per flavor under `k8s/overlays/` (`main` = plain, `newrelic`, `otel`). The collector's own Helm values for the otel flavor are in `k8s/overlays/otel/extras/your-custom-values.yaml`.
+- `newrelic` / `otel` — older per-flavor copies of the manifests, kept for reference.
 - `azure-functions-newrelic` — the Azure Functions deploy/test scripts (`azure-functions/`) wired with `NEW_RELIC_APP_NAME`/`NEW_RELIC_LICENSE_KEY` for `hello`, `world`, and `frontend`. Matches the same-named branch in those three services' own repos; `loadgen` stays on `main` throughout.
 
 ## Service interaction
@@ -47,8 +47,9 @@ docker compose build
 ### Deploy on K8S
 ```
 cd k8s
-kubectl apply -f deployments/
-kubectl apply -f services/
+kubectl apply -k overlays/main        # plain (no agent)
+kubectl apply -k overlays/newrelic    # New Relic agent
+kubectl apply -k overlays/otel        # OpenTelemetry
 
 ```
 
@@ -90,9 +91,7 @@ argocd app create doodle-weather-java  --repo https://github.com/scrogatl/gitops
 Changes/appends '3040' to the label (for reporting into New Relic):
 
 ```
-for FILE in deployments/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
-
-for FILE in services/*; do sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /'  $FILE | k apply  -f -; done
+kustomize build k8s/overlays/main | sed -r 's/(.*app.kubernetes.io\/name: doodle-.*)/\1-3040 /' | kubectl apply -f -
 
 ```
 ### doodle-world now has Prometheus metrics counter for requests

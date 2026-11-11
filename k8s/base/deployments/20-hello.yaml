@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: doodle-hello
-        image: ghcr.io/scrogatl/doodle-hello:main
+        image: ghcr.io/scrogatl/doodle-hello:plain
         imagePullPolicy: Always
         env:
         - name: SHARD

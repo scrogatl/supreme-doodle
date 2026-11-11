@@ -1,0 +1,31 @@
+# JSON6902 changes vs base
+- op: replace
+  path: "/spec/template/spec/containers/0/image"
+  value: ghcr.io/scrogatl/doodle-weather-java:newrelic
+- op: replace
+  path: "/spec/selector/matchLabels"
+  value:
+    app.kubernetes.io/name: doodle-weather-java
+    app.kubernetes.io/instance: doodle-weather-java-instance
+    app.kubernetes.io/version: 0.9.1
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
+- op: replace
+  path: "/spec/template/metadata/labels"
+  value:
+    app.kubernetes.io/name: doodle-weather-java
+    app.kubernetes.io/instance: doodle-weather-java-instance
+    app.kubernetes.io/version: 0.9.1
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
+- op: replace
+  path: "/metadata/labels"
+  value:
+    app.kubernetes.io/name: doodle-weather-java
+    app.kubernetes.io/instance: doodle-weather-java-instance
+    app.kubernetes.io/version: 0.9.1
+    app.kubernetes.io/component: service
+    app.kubernetes.io/part-of: helloworld
+    app.kubernetes.io/managed-by: kubectl
