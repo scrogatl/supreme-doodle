@@ -27,4 +27,5 @@ spec:
         matchExpressions:
           - key: url
             operator: In
-            values: ["ghcr.io/scrogatl/doodle-weather-java:main"]
+            values: ["ghcr.io/scrogatl/doodle-weather-java:plain",
+             "ghcr.io/scrogatl/doodle-weather-java:main"]

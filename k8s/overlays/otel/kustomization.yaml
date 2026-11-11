@@ -19,6 +19,10 @@ patches:
     kind: Deployment
     name: doodle-hello
 - path: patches/dep-25-weather-java-env.yaml
+- path: patches/dep-25-weather-java.yaml
+  target:
+    kind: Deployment
+    name: doodle-weather-java
 - path: patches/dep-30_frontend-env.yaml
 - path: patches/dep-30_frontend.yaml
   target:

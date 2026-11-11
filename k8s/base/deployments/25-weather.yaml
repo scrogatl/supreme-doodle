@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: weather
-        image: ghcr.io/scrogatl/doodle-weather:main
+        image: ghcr.io/scrogatl/doodle-weather:plain
         imagePullPolicy: Always
         env:
         - name: SHARD
