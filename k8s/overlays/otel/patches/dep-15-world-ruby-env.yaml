@@ -12,3 +12,20 @@ spec:
         env:
         - name: OTEL_SERVICE_NAME
           value: world-ruby-otel
+        - name: KUBE_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME)
+        # The Ruby OTLP exporter only speaks HTTP/protobuf, so use the collector's 4318 port.
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://nr-k8s-otel-collector-gateway.newrelic.svc.cluster.local:4318
