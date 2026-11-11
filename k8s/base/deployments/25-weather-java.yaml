@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: doodle-weather-java
-        image: ghcr.io/scrogatl/doodle-weather-java:main
+        image: ghcr.io/scrogatl/doodle-weather-java:plain
         imagePullPolicy: Always
         env:
         - name: SHARD

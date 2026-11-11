@@ -1,0 +1,4 @@
+# JSON6902 changes vs base
+- op: replace
+  path: "/spec/template/spec/containers/0/image"
+  value: ghcr.io/scrogatl/doodle-weather-java:otel
