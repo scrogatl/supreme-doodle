@@ -28,6 +28,8 @@ spec:
           value: k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME)
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
           value: http://nr-k8s-otel-collector-gateway.newrelic.svc.cluster.local:4317
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: grpc
         - name: OTEL_LOGS_EXPORTER
           value: otlp
         - name: OTEL_TRACES_EXPORTER

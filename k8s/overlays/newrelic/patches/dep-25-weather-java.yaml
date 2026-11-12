@@ -14,6 +14,7 @@
 - op: replace
   path: "/spec/template/metadata/labels"
   value:
+    role: weather
     app.kubernetes.io/name: doodle-weather-java
     app.kubernetes.io/instance: doodle-weather-java-instance
     app.kubernetes.io/version: 0.9.1

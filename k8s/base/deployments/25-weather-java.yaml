@@ -21,6 +21,7 @@ spec:
   template:
     metadata:
       labels:
+        role: weather
         app.kubernetes.io/name: doodle-weather-java
         application: helloworld
         service: doodle-weather-java

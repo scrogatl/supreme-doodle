@@ -11,6 +11,5 @@ resources:
   - services/10-world.yaml
   - services/15-world-ruby.yaml
   - services/20-hello.yaml
-  - services/25-weather-java.yaml
   - services/25-weather.yaml
   - services/29-frontend-service.yaml

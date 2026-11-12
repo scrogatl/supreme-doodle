@@ -2,12 +2,7 @@
 - op: replace
   path: "/spec/selector"
   value:
-    app.kubernetes.io/name: doodle-weather
-    app.kubernetes.io/instance: weather-instance
-    app.kubernetes.io/version: 0.9.1
-    app.kubernetes.io/component: service
-    app.kubernetes.io/part-of: helloworld
-    app.kubernetes.io/managed-by: kubectl
+    role: weather
 - op: add
   path: "/metadata/labels"
   value:
