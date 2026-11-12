@@ -50,10 +50,6 @@ patches:
   target:
     kind: Service
     name: doodle-hello
-- path: patches/svc-25-weather-java.yaml
-  target:
-    kind: Service
-    name: doodle-weather-java
 - path: patches/svc-25-weather.yaml
   target:
     kind: Service
