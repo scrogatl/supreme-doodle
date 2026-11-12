@@ -11,7 +11,7 @@ spec:
       - name: doodle-weather-java
         env:
         - name: OTEL_SERVICE_NAME
-          value: weather-otel-java
+          value: weather-java-otel
         - name: KUBE_NODE_NAME
           valueFrom:
             fieldRef:

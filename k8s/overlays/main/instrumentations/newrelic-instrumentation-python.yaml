@@ -29,7 +29,4 @@ spec:
             operator: In
             values: ["ghcr.io/scrogatl/doodle-frontend:plain",
              "ghcr.io/scrogatl/doodle-hello:plain",
-             "ghcr.io/scrogatl/doodle-world:plain",
-             "ghcr.io/scrogatl/doodle-frontend:main",
-             "ghcr.io/scrogatl/doodle-hello:main",
-             "ghcr.io/scrogatl/doodle-world:main"]
+             "ghcr.io/scrogatl/doodle-world:plain"]
