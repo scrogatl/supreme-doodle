@@ -1,0 +1,41 @@
+# New Relic agent flavor: builds each service's `newrelic` target and sends
+# straight to New Relic (no collector). Usage:
+#   export NEW_RELIC_LICENSE_KEY=...
+#   docker compose -f docker-compose.yml -f docker-compose.newrelic.yml up -d --build
+services:
+  world:
+    build:
+      target: newrelic
+    image: doodle-world:newrelic
+    environment:
+      - NEW_RELIC_APP_NAME=doodle-world
+  world-ruby:
+    build:
+      target: newrelic
+    image: doodle-world-ruby:newrelic
+    environment:
+      - NEW_RELIC_APP_NAME=doodle-world-ruby
+  hello:
+    build:
+      target: newrelic
+    image: doodle-hello:newrelic
+    environment:
+      - NEW_RELIC_APP_NAME=doodle-hello
+  frontend:
+    build:
+      target: newrelic
+    image: doodle-frontend:newrelic
+    environment:
+      - NEW_RELIC_APP_NAME=doodle-frontend
+  weather:
+    build:
+      target: newrelic
+    image: doodle-weather:newrelic
+    environment:
+      - NEW_RELIC_APP_NAME=doodle-weather
+  weather-java:
+    build:
+      target: newrelic
+    image: doodle-weather-java:newrelic
+    environment:
+      - NEW_RELIC_APP_NAME=doodle-weather-java

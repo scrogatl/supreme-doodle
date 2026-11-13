@@ -1,6 +1,11 @@
 services:
   world-ruby:
-    image: ghcr.io/scrogatl/doodle-world-ruby:main
+    build:
+      context: ../../gitops-doodle-world-ruby
+      target: plain
+      secrets:
+        - extra_ca
+    image: doodle-world-ruby:plain
     container_name: world-ruby
     environment: 
       - SHARD=docker-local
@@ -8,7 +13,12 @@ services:
 
 
   world:
-    image: ghcr.io/scrogatl/doodle-world:main
+    build:
+      context: ../../gitops-doodle-world
+      target: plain
+      secrets:
+        - extra_ca
+    image: doodle-world:plain
     container_name: world
     environment: 
       - SHARD=docker-local
@@ -21,7 +31,12 @@ services:
     # command: newrelic-admin run-program flask run --host=0.0.0.0 -p 5002
 
   hello:
-    image: ghcr.io/scrogatl/doodle-hello:main
+    build:
+      context: ../../gitops-doodle-hello
+      target: plain
+      secrets:
+        - extra_ca
+    image: doodle-hello:plain
     container_name: hello
     environment: 
       - SHARD=docker-local
@@ -33,7 +48,12 @@ services:
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
   frontend:
-    image: ghcr.io/scrogatl/doodle-frontend:main
+    build:
+      context: ../../gitops-doodle-frontend
+      target: plain
+      secrets:
+        - extra_ca
+    image: doodle-frontend:plain
     container_name: frontend  
     environment: 
       - HELLO_HOST=hello
@@ -48,14 +68,24 @@ services:
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
   weather:
-    image: ghcr.io/scrogatl/doodle-weather:main
+    build:
+      context: ../../gitops-doodle-weather
+      target: plain
+      secrets:
+        - extra_ca
+    image: doodle-weather:plain
     container_name: weather
     environment:
       - SHARD=docker-local
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
 
   weather-java:
-    image: ghcr.io/scrogatl/doodle-weather-java:main
+    build:
+      context: ../../gitops-doodle-weather-java
+      target: plain
+      secrets:
+        - extra_ca
+    image: doodle-weather-java:plain
     container_name: weather-java
     environment:
       - SHARD=docker-local
@@ -63,7 +93,11 @@ services:
 
   
   loadgen:
-    image: ghcr.io/scrogatl/doodle-loadgen:latest
+    build:
+      context: ../../gitops-doodle-loadgen
+      secrets:
+        - extra_ca
+    image: doodle-loadgen:local
     environment: 
       - F_HOST=frontend
       - WORLD_HOST=world
@@ -71,3 +105,9 @@ services:
       - PYTHONUNBUFFERED=1
       - SHARD=docker-local
 
+# Optional CA bundle trusted during image builds, for networks that intercept TLS.
+#   export EXTRA_CA_FILE=$PWD/certs/extra-ca.pem
+# Unset = empty file = no-op. Put the PEM in docker/certs/ (gitignored).
+secrets:
+  extra_ca:
+    file: ${EXTRA_CA_FILE:-/dev/null}
