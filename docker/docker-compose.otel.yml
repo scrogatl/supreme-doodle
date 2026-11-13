@@ -25,20 +25,22 @@ services:
   #     - "--rate=10"
   #     - "--duration=0s" # 0s means run forever
 
-  # world-ruby:
-  #   environment:
-  #     - OTEL_SERVICE_NAME=world-ruby-otel
-  #     - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4317
-  #     - OTEL_EXPORTER_OTLP_INSECURE=true
-  #     - OTEL_LOGS_EXPORTER=otlp
-  #     - OTEL_TRACES_EXPORTER=otlp
-  #     - OTEL_METRICS_EXPORTER=otlp
+  world-ruby:
+    image: ghcr.io/scrogatl/doodle-world-ruby:otel
+    environment:
+      - OTEL_SERVICE_NAME=world-ruby-otel-docker-test
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4318
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - OTEL_LOGS_EXPORTER=otlp
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
 
   world:
     image: ghcr.io/scrogatl/doodle-world:otel
     environment:
       - OTEL_SERVICE_NAME=world-otel-docker-test
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc  # base file sets http/protobuf, which 4317 rejects
       - OTEL_EXPORTER_OTLP_INSECURE=true
       - OTEL_LOGS_EXPORTER=otlp
       - OTEL_TRACES_EXPORTER=otlp
@@ -71,6 +73,7 @@ services:
     command: ["opentelemetry-instrument", "flask", "run", "--host=0.0.0.0", "-p 5000"]
 
   weather-java:
+    image: ghcr.io/scrogatl/doodle-weather-java:otel
     environment:
       - OTEL_SERVICE_NAME=weather-java-otel-docker-test
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://nrdot-collector:4318
