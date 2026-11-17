@@ -1,0 +1,210 @@
+# otel overlay, but export to an OTel collector running on the node itself
+# (not the in-cluster nr-k8s-otel-collector-gateway). Pods reach the node via
+# its IP from the downward API. The node collector must listen on 0.0.0.0:4317.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../otel
+patches:
+  # Drop the otel overlay's endpoint so the one appended below lands after NODE_IP.
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-world
+        namespace: supreme-doodle
+      spec:
+        template:
+          spec:
+            containers:
+            - name: doodle-world
+              env:
+              - name: OTEL_EXPORTER_OTLP_ENDPOINT
+                $patch: delete
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-world-ruby
+        namespace: supreme-doodle
+      spec:
+        template:
+          spec:
+            containers:
+            - name: doodle-world-ruby
+              env:
+              - name: OTEL_EXPORTER_OTLP_ENDPOINT
+                $patch: delete
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-hello
+        namespace: supreme-doodle
+      spec:
+        template:
+          spec:
+            containers:
+            - name: doodle-hello
+              env:
+              - name: OTEL_EXPORTER_OTLP_ENDPOINT
+                $patch: delete
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-weather-java
+        namespace: supreme-doodle
+      spec:
+        template:
+          spec:
+            containers:
+            - name: doodle-weather-java
+              env:
+              - name: OTEL_EXPORTER_OTLP_ENDPOINT
+                $patch: delete
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-frontend
+        namespace: supreme-doodle
+        labels:
+          service.name: doodle-frontend
+      spec:
+        template:
+          metadata:
+            labels:
+              service.name: doodle-frontend
+          spec:
+            containers:
+            - name: doodle-frontend
+              env:
+              - name: OTEL_EXPORTER_OTLP_ENDPOINT
+                $patch: delete
+  - target:
+      kind: Deployment
+      name: doodle-(world|world-ruby|hello|weather-java|frontend)
+    # NODE_IP must be defined before the endpoint so $(NODE_IP) expands.
+    # The endpoint is appended after the otel overlay's value, so it wins.
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://$(NODE_IP):4317"
+  # Observe APM resolves a service by service.name + deployment.environment.name
+  # + service.namespace. Replaces OTEL_RESOURCE_ATTRIBUTES from ../otel, keeping
+  # its original three entries and adding the two Observe needs.
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-world
+        namespace: supreme-doodle
+        labels:
+          service.name: doodle-world
+      spec:
+        template:
+          metadata:
+            labels:
+              service.name: doodle-world
+          spec:
+            containers:
+            - name: doodle-world
+              env:
+              - name: OTEL_RESOURCE_ATTRIBUTES
+                value: "k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME),deployment.environment.name=supreme-doodle,service.namespace=supreme-doodle"
+              - name: OTEL_SERVICE_NAME
+                value: doodle-world
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-world-ruby
+        namespace: supreme-doodle
+        labels:
+          service.name: doodle-world-ruby
+      spec:
+        template:
+          metadata:
+            labels:
+              service.name: doodle-world-ruby
+          spec:
+            containers:
+            - name: doodle-world-ruby
+              env:
+              - name: OTEL_RESOURCE_ATTRIBUTES
+                value: "k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME),deployment.environment.name=supreme-doodle,service.namespace=supreme-doodle"
+              - name: OTEL_SERVICE_NAME
+                value: doodle-world-ruby
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-hello
+        namespace: supreme-doodle
+        labels:
+          service.name: doodle-hello
+      spec:
+        template:
+          metadata:
+            labels:
+              service.name: doodle-hello
+          spec:
+            containers:
+            - name: doodle-hello
+              env:
+              - name: OTEL_RESOURCE_ATTRIBUTES
+                value: "k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME),deployment.environment.name=supreme-doodle,service.namespace=supreme-doodle"
+              - name: OTEL_SERVICE_NAME
+                value: doodle-hello
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-weather-java
+        namespace: supreme-doodle
+        labels:
+          service.name: doodle-weather-java
+      spec:
+        template:
+          metadata:
+            labels:
+              service.name: doodle-weather-java
+          spec:
+            containers:
+            - name: doodle-weather-java
+              env:
+              - name: OTEL_RESOURCE_ATTRIBUTES
+                value: "k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME),deployment.environment.name=supreme-doodle,service.namespace=supreme-doodle"
+              - name: OTEL_SERVICE_NAME
+                value: doodle-weather-java
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: doodle-frontend
+        namespace: supreme-doodle
+        labels:
+          service.name: doodle-frontend
+      spec:
+        template:
+          metadata:
+            labels:
+              service.name: doodle-frontend
+          spec:
+            containers:
+            - name: doodle-frontend
+              env:
+              - name: OTEL_RESOURCE_ATTRIBUTES
+                value: "k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_NAME),host.name=$(POD_NAME),deployment.environment.name=supreme-doodle,service.namespace=supreme-doodle"
+              - name: OTEL_SERVICE_NAME
+                value: doodle-frontend
